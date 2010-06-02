@@ -1,0 +1,676 @@
+* {
+	margin:0;
+	padding:0;
+	}
+
+body {
+	background-color:#ffffff;
+	font:12px "Trebuchet MS", Arial, Verdana;
+	color:#555555;
+	text-align:left;
+}
+
+a {
+    text-decoration : none;
+    color : blue;
+    background : inherit;
+}
+	
+a:hover {
+	color: #E77817;
+	text-decoration:none;
+	}
+
+p {
+	line-height:1.7em;
+	margin-bottom:20px;
+	text-align:justify;
+
+}
+
+h1 {
+	font-size:24px;
+}
+
+h2 {
+	font-size:18px;
+}
+
+h3 {
+
+	font-size:14px;
+}
+
+.imagem {
+	border: none;
+	margin-left:15px;
+
+}
+
+/* Header Area */
+
+.heading {
+        margin: 0 0 30px 0;
+	padding: 0;
+	border-bottom: 5px solid blue;
+	font-size:20px;
+}
+
+#header {
+    height : 150px;
+    width:100%;
+    margin : 0 auto;
+    padding : 0;
+	background: url(images/bk.jpg) repeat;
+   
+}
+
+#logo{
+    height: 100px;
+    width:150px;
+    float: left;
+    margin-left: 120px;
+	background: transparent
+}
+
+#banner{
+    height:64px;
+    width:65%;
+    float: left;
+    margin-right:32px;
+}
+
+#menu_top{
+    height : 40px;
+    width: 60%;
+    margin : 10px 0;
+    padding : 0;
+    float:right;
+	margin-right:110px;
+    
+}
+
+/* Page Wrappers */
+
+#todo {
+	width: 100%;
+	height: 100%;
+	margin:0px auto 0 auto;
+	padding:0;
+	clear:both;
+        background-color: gray;
+}
+
+#todo_in {
+	margin:1px 0 10px 3px;
+	float:left;
+	width: 99%;
+	height: 100%;
+    
+}
+
+
+/* Content Area */
+#content {
+	width:57%;
+	margin:0;
+        padding: 0;
+	float:left;
+        margin-bottom: 30px;
+       
+}
+
+#content h3 {
+	margin: 0 20px 0 20px;
+	padding: 20px 5px 0 5px;
+        text-align: center;
+}
+
+
+#content h2 {
+	margin: 0 20px 0 20px;
+	padding: 20px 5px 0 5px;
+	color: blue;
+        text-align: center;
+}
+#content p {
+	margin: 0 20px 0 20px;
+	padding: 20px 5px 0 5px;
+      
+        
+}
+.center{
+    text-align: center;
+}
+
+#content-2 {
+    height : 150px;
+    margin : 0;
+    padding : 0 0 0 20px;
+    float: right;
+    width: 100%;
+    
+    background: #f2f2f2;
+}
+
+
+
+#bloco{
+    height : 150px;
+    margin-right: 20px;
+    padding : 0;
+    float: left;
+    width: 30%;
+    background: #FFFF99;
+
+}
+/*
+#conteudo {
+	width: 100%;
+	padding: 0;
+	margin:0 10px 0 0;
+	float:right;
+        text-align: center;
+        margin-bottom: 30px;
+        border: 1px solid red;
+}*/
+
+
+/* Sidebar Area*/
+
+#sidebar_left {
+	width:19%;
+	margin:10px 10px 0 10px;
+	float:left;
+	display: inline;
+        border-right : 2px solid #eee;
+}
+#sidebar_left_index {
+	width:19%;
+	margin:10px 10px 0 10px;
+	float:left;
+	display: inline;
+        border-right : 1px solid #eee;
+}
+
+#sidebar_right {
+	width:19%;
+	margin:10px 10px 0 0;
+        padding: 0 0 0 15px;
+	float:right;
+	display: inline;
+        border-left : 2px solid #eee;
+}
+#sidebar_right_index {
+	width:19%;
+	margin:10px 10px 0 0;
+        padding: 0 0 0 15px;
+	float:right;
+	display: inline;
+        border-left : 2px solid #eee;
+}
+
+#sidebar h2 {
+	padding:25px 10px 0 10px;
+	text-align:center;	
+}
+
+#menu_right_index {
+	width:150px;
+	overflow:auto;
+	margin:10px 0;
+	background: #FFFFFF;
+
+}
+#menu_right {
+	width:150px;
+	overflow:auto;
+	margin:10px 0;
+	background: #FFFFFF;
+
+}
+
+#menu_right h3{
+
+	font-size:12px; 
+	cursor:pointer;
+	line-height:18px;
+	padding-left:10px;
+	margin:1px 0;
+	background: #f8da4e url(images/mais1.gif) right no-repeat;
+}
+
+#menu_right  h3.corrente {
+	background:#f8da4e url(images/menos1.gif) right no-repeat;
+	}	
+
+
+#menu_right p {
+	margin:0 20px 0 0px;
+	padding:5px 10px 10px 10px;
+}
+
+#menu_right ul {
+	list-style:none;
+	margin:0;
+	padding:0;
+
+}
+
+#menu_right li {
+	margin-bottom:1px;
+	text-decoration:none;
+	list-style: none;
+	
+}
+
+#menu_right li a {
+
+	color: #333;
+	text-decoration: none;
+	margin-bottom:1px;
+	padding: 3px 15px 3px 20px;
+	display: block;
+	background: #f2f2f2;
+}
+
+* html #menu_right h3, * html #menu_right h3.corrente {
+	background-position: 8px center;
+	}	
+*:first-child+html #menu_right h3,
+*:first-child+html #menu_right  h3.corrente {
+	background-position: 8px center;
+	}	
+	
+#menu_right li a:hover {
+    background: #dce3e9;
+    color: #E77817;
+}
+
+#perfil{
+    width : 90px;
+    height: 90px;
+    margin-left : 15px;
+    padding : 0 5px 0 10px;
+    border : 1px solid #eee;
+}
+
+.photo_perfil {
+    max-width:90px;
+    width:90px;
+    height:auto;
+    max-height:90px;
+}
+
+.msg_perfil{
+    padding: 10px 0 0 10px;
+    font-weight: bold;
+   
+}
+
+.relogio_perfil{
+    padding: 0 0 10px 10px;
+    font-weight: bold;
+    
+}
+
+#button{
+    width:120px;
+    float: left;
+    margin-top: 20px;
+    margin-left: 10px;
+   
+    text-align: center;
+    padding: 0;
+}
+
+#button ul li{
+    width: 35px;
+    height: 35px;
+    float:left;
+    list-style: none;
+    text-align: center;
+    margin: auto;
+
+}
+#button span{
+   margin: auto;
+   font-size: 9px;
+
+}
+
+.button_salvar{
+    width:50px;
+    height:50px;
+    background: url(images/button_ok.png) no-repeat;
+    float: right;
+    
+
+}
+
+.button_apagar{
+    width:50px;
+    height:50px;
+    background: url(images/del.png) no-repeat;
+    float: right;
+    margin-right: 10px;
+
+}
+
+.button_adicionar{
+    width:50px;
+    height:50px;
+    background: url(images/add.png) no-repeat;
+    float: right;
+    margin-right: 10px;
+}
+
+#login{
+    width : 160px;
+    margin : 0 15px 0 0;
+    padding : 0 5px 0 10px;
+    
+}
+
+#tb_login{
+    text-align: center;
+    margin-left : 0;
+    padding :0;
+    width:100%;
+    background-color: #DCDCDC;
+}
+
+/* Button Area */
+
+.button {
+    color:blue;
+    font-weight: bold;
+    padding-top:20px;
+    padding-left: 0;
+
+}
+
+/* Form Area */
+
+
+.form_conf {
+    margin-left: auto;
+    width: 50%;
+    margin-right: auto;
+    background-color: #f2f2f2
+}
+.form_conf_noticia {
+    margin-left: auto;
+    width: 55%;
+    margin-right: auto;
+    
+}
+
+#form_noticia {
+    text-align: center;
+    position: relative;
+    width:550px;
+    margin-right: auto;
+    margin-left: auto;
+    padding:0;
+    margin-top: 30px;
+
+}
+
+/* FORMULARIOS PARA CADASTRO*/
+
+#cad_adm{
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:80px;
+}
+
+#cad_cur{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:30px;
+}
+
+.dialog-form input.text {
+    margin-bottom:12px;
+    /*width:60%;*/
+    padding: .2em;
+    margin-top: 0px;
+}
+
+
+.dialog-form fieldset { 
+    padding:0;
+    margin-top:25px;
+    margin-bottom: 15px;
+}
+
+.dialog-form legend{
+    height: 15px;
+    margin-bottom: 15px;
+    padding: 5px;
+}
+.dialog-form label {
+    display: block;
+    float: left;
+    width: 70px;
+    margin-top: 5px ;
+    margin-left: 10px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+}
+
+#dialog-form_button {
+    margin:0 15px 10px 0;
+    float: right;
+
+}
+
+		
+
+#form_noticia label {
+    display: block;
+    float: left;
+    text-align: left;
+    width: 130px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+}
+
+#form_noticia input, #form_noticia select{
+    display: block;
+    float: left;
+    background-color: #FFFF99;
+}
+
+#form_noticia br {
+    clear: left;
+}
+
+#form{
+    text-align: center;
+    position: relative;
+    width:550px;
+    margin-right: auto;
+    margin-left: auto;
+    padding:0;
+    margin-top: 70px;
+
+}
+#content_home{
+    text-align: center;
+    position: relative;
+    width:95%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 0;
+}
+
+.noticia p{
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+#form_type{
+    text-align: center;
+    position: relative;
+    width:520px;
+    margin-right: auto;
+    margin-left: auto;
+    padding:0;
+    margin-top: 30px;
+}
+
+#form_type input, #form_type select{
+    display: block;
+    float: left;
+    background-color: #FFFF99;
+}
+
+#form_type label {
+    display: block;
+    float: left;
+    text-align: left;
+    width: 90px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+}
+
+#form_type br {
+    clear: left;
+}
+
+
+/* Footer Area */
+#footer {
+        clear:both;
+        padding : 0px;
+        margin : 0px;
+        text-align: center;
+        height: 47px;
+        background-image: url(images/rodape.jpg);
+        
+}
+
+#footer p {
+	text-align:center;
+	margin:0;
+	padding:10px 0 0 0 ;
+	line-height:1.3em;
+	font-size: 95%;
+        color: #fff;
+        
+}
+
+#mostra_noticia{
+
+    margin: 50px 0 30px 0;
+}
+#data{
+    width: 100%;
+    font-size: 75%;
+    margin: 0px 0 30px 0;
+}
+
+#mais{
+
+    margin: 30px 10px 10px 10px;
+    text-align: center;
+  
+}
+
+.tecno img{
+    width: 140px;
+    height: 40px;
+}
+
+.titulo{
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    
+    width: 100%;
+    border-bottom: 4px solid blue;
+}
+
+.saibamais li{
+    text-decoration: none;
+    list-style: none;
+ 
+    text-align: left;
+    margin: 15px 10px 10px 10px;
+    font-weight: bold;
+    padding-left: 17px;
+    background: url(images/seta1.png) left no-repeat;
+ 
+}
+
+
+
+.dialog-form select{
+    float:left;
+    border: 1px solid;
+    margin:0 20px 0 0;
+}
+
+.readonly{
+    background-color: #EDECE8;
+}
+
+#msg{
+    
+    text-align: center;
+    font-weight: bold;
+    font-size: 10px;
+    margin-bottom:10px;
+}
+
+
+/* Classe do formulário de vizualizar currículo*/
+
+#form_curriculo
+{
+    text-align: left;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+    border: 3px solid;
+}
+
+#form_curriculo h2
+{
+       font-weight: bold;
+       font-size:18px;
+       text-align: justify;
+       float:left;
+       color: graytext;
+       text-align: left;
+
+}
+
+#form_curriculo p
+{
+       text-align:justify;
+       border: 2px solid;
+}
+
+#form_curriculo label
+{
+    display: block;
+    font-weight: bold;
+    float: left;
+    text-align: left;
+    width: 150px;
+    border: 2px solid;
+    padding-left: 3%;
+
+
+}
+
+#form_curriculo br {
+    clear: left;
+}
+

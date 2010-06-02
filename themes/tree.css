@@ -1,0 +1,54 @@
+.tree ul, .tree li
+{
+  list-style-type: none;
+  margin: 0 0 0 2px;
+  padding: 0;
+  white-space: nowrap;
+  display: block;
+}
+.tree ul ul
+{
+  margin-left: 12px;
+}
+.tree a.selected
+{
+  background-color: lavender;
+}
+.tree .collapsed ul, .tree .collapsed span
+{
+  display: none;
+}
+.tree span
+{
+  display: block;
+  margin: 0 0 0 16px;
+  padding: 0;
+  color: Gray;
+  cursor: default;
+  font-size: smaller;
+}
+.tree img
+{
+  border: none;
+  text-align: left;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+.tree img.plusminus
+{
+  width: 17px;
+  height: 17px;
+}
+.tree a, .tree a:link, .tree a:visited, .tree a:active
+{
+  font-size: 12px;
+  color: navy;
+  text-decoration: none;
+  text-align: left;
+  margin: 0 2px 0 2px;
+}
+.tree a:hover
+{
+  text-decoration: underline;
+  color: Blue;
+}
