@@ -31,10 +31,10 @@ jQuery("#list_cad_projeto").jqGrid({
 
  //-----------------------------------Ação sobre o botão Novo ----------------------------
 
-    $('#bt_add_cad_cargo').click(function(){
+    $('#bt_add_cad_projeto').click(function(){
 
        //Reseta o formulário
-       $('#form_cad_cargo').each(function(){
+       $('#form_cad_projeto').each(function(){
 	        this.reset();
        });
 
@@ -44,17 +44,17 @@ jQuery("#list_cad_projeto").jqGrid({
 
 //--------------------------------------Ação sobre o botão Editar ----------------------------
 
-    $('#bt_editar_cad_cargo').click(function(){
+    $('#bt_editar_cad_projeto').click(function(){
 
 
        //Reseta o formulário
-       $('#form_cad_cargo').each(function(){
+       $('#form_cad_projeto').each(function(){
 	        this.reset();
        });
 
        //Pega o id e armazena em gsr
-       var gsr = $("#list_cad_cargo").getGridParam('selrow');
-       $("#cad_cargo_id").val(gsr);
+       var gsr = $("#list_cad_projeto").getGridParam('selrow');
+       $("#cad_projeto_id").val(gsr);
        
        if(gsr){
 
@@ -62,7 +62,7 @@ jQuery("#list_cad_projeto").jqGrid({
             $("#cad_adm").show();
 
            //Pega os valores da grid e coloca no formuário
-           $("#list_cad_cargo").GridToForm(gsr,"#form_cad_cargo");
+           $("#list_cad_projeto").GridToForm(gsr,"#form_cad_projeto");
 
        }else{
            alert("Selecione uma linha!");
@@ -72,24 +72,25 @@ jQuery("#list_cad_projeto").jqGrid({
 
 // ----------------------------------------Ação sobre o botão Apagar----------------------------------------
 
-    $('#bt_apagar_cad_cargo').click(function(){
+    $('#bt_apagar_cad_projeto').click(function(){
 
         //Esconde formulário
         $("#cad_adm").hide();
 
         //Pega o id e armazena em gsr
-        var gsr = $("#list_cad_cargo").getGridParam('selrow');
+        var gsr = $("#list_cad_projeto").getGridParam('selrow');
         var dataString = 'cad_id='+ gsr;
         
         //Envia o id correspondente a linha que será apagada no banco
         if(gsr){
             $.ajax({
                 type: "GET",
-                url: "libs/lib_cargo.php?reference=cargo&action=apagar_cargo",
+                url: "libs/lib_projeto.php?reference=projeto&action=apagar_projeto",
                 processData: false,
                 data: dataString,
                 success: function(){
-                    $("#list_cad_cargo").trigger("reloadGrid");
+                    $("#list_cad_projeto").trigger("reloadGrid");
+                    alert("Projeto de Pesquisa removido com sucesso!");
                }
             });
         }else{
@@ -99,11 +100,11 @@ jQuery("#list_cad_projeto").jqGrid({
 
 //-------------------------------------------- Ação sobre o botão OK --------------------------------------
 
-  $('#bt_ok_cad_cargo').click(function(){
+  $('#bt_ok_cad_projeto').click(function(){
 
             //Pega os valores do formulário
-            var descricao = $("#cad_cargo_descricao").val();
-            var id_cad = $("#cad_cargo_id").val();
+            var descricao = $("#cad_projeto_descricao").val();
+            var id_cad = $("#cad_projeto_id").val();
 
             //Armazena os valores do formulário na variável dataString
             var dataString = 'descricao=' + descricao + '&cad_id=' + id_cad;
@@ -111,20 +112,20 @@ jQuery("#list_cad_projeto").jqGrid({
 
             //Defique qual action será passada na url
             if (id_cad=="")
-                var opcao= 'inserir_cargo';
+                var opcao= 'inserir_projeto';
             else
-                var opcao='update_cargo';
+                var opcao='update_projeto';
 
             //Envia a variável dataString para a lib que insere no banco de dados
             $.ajax({
                     type: "GET",
-                    url: "libs/lib_cargo.php?reference=cargo&action="+ opcao,
+                    url: "libs/lib_projeto.php?reference=projeto&action="+ opcao,
                     processData: false,
                     data: dataString,
-                    success: function(msg){
-                        alert(msg);
+                    success: function(){
+                        //alert(msg);
                      $("#cad_adm").hide();
-                     $("#list_cad_cargo").trigger("reloadGrid");
+                     $("#list_cad_projeto").trigger("reloadGrid");
                      }
                 });
 
@@ -132,7 +133,7 @@ jQuery("#list_cad_projeto").jqGrid({
 
 //------------------------------------ Ação sobre o botão Cancelar ----------------------
 
-$('#bt_cancelar_cad_cargo').click(function(){
+$('#bt_cancelar_cad_projeto').click(function(){
     //Esconde formulário
     $("#cad_adm").hide();
 
@@ -148,19 +149,19 @@ $('#bt_cancelar_cad_cargo').click(function(){
 <div id="button">
         <ul class="icons ui-widget">
             <!-- Botão Adicionar -->
-	    <li id="bt_add_cad_cargo" onClick="" class="ui-state-default ui-corner-all" title="Novo">
+	    <li id="bt_add_cad_projeto" onClick="" class="ui-state-default ui-corner-all" title="Novo">
                  <span class="ui-icon ui-icon-plusthick"></span>
                  <span>Novo</span>
             </li>
 
              <!-- Botão Editar -->
-	    <li id="bt_editar_cad_cargo" onClick="" class="ui-state-default ui-corner-all" title="Editar">
+	    <li id="bt_editar_cad_projeto" onClick="" class="ui-state-default ui-corner-all" title="Editar">
 	         <span class="ui-icon ui-icon-pencil"></span>
 	         <span>Editar</span>
 	    </li>
 
                     <!-- Botão Apagar -->
-	    <li id="bt_apagar_cad_cargo" onClick="" class="ui-state-default ui-corner-all" title="Editar">
+	    <li id="bt_apagar_cad_projeto" onClick="" class="ui-state-default ui-corner-all" title="Editar">
 	         <span class="ui-icon ui-icon-trash"></span>
 	         <span>Apagar</span>
 	    </li>
@@ -171,18 +172,18 @@ $('#bt_cancelar_cad_cargo').click(function(){
 
 <!-- Formulário de cadastro e edição-->
 <div id="cad_adm" style="display:none;">
-    <form class="dialog-form" id="form_cad_cargo" >
+    <form class="dialog-form" id="form_cad_projeto" >
         <fieldset class="ui-widget ui-widget-content ui-corner-all">
 		<legend class="ui-widget ui-widget-header ui-corner-all">Projetos de Pesquisa</legend>
 
                     <label>Descrição</label>
-                    <TEXTAREA type="text" cols="26" rows="6" name="cad_projeto_descricao" id="cad_projeto_descricao" class="text ui-widget-content ui-corner-all" >  </TEXTAREA><br/><br/>
+                    <TEXTAREA type="text" name="cad_projeto_descricao" id="cad_projeto_descricao"  COLS="30" ROWS="6" class="text ui-widget-content ui-corner-all">  </TEXTAREA><br/><br/>
                    
                     <input type="text" id="cad_projeto_id" name="cad_projeto_id" style="display:none;">
 
                     <div id="dialog-form_button"
-                        <input type="button" value="OK" id="bt_ok_cad_cargo" title="OK" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-                        <input type="button" value="Cancelar" id="bt_cancelar_cad_cargo" title="Cancelar" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+                        <input type="button" value="OK" id="bt_ok_cad_projeto" title="OK" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+                        <input type="button" value="Cancelar" id="bt_cancelar_cad_projeto" title="Cancelar" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
                     </div>
         </fieldset>
     </form>

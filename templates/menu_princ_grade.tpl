@@ -2,48 +2,6 @@
 
 var lastsel;
 
-$("#list_noticia").jqGrid({
-    url:'libs/lib_grade.php?reference=grade&action=grid_buscar_grade1',
-    width: 510,
-    height:190,
-    datatype: "xml",
-    colNames:['Ementa', 'Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
-    colModel:[
-        {name:'act',index:'act', width:50, sortable:false},
-        {name:'materia',index:'materia', width:200,align:"center"},
-        {name:'disciplina',index:'disciplina', width:200, align:"center"},
-        {name:'carhoraria',index:'carhoraria', width:85,align:"center"},
-        {name:'creditos',index:'creditos', width:50, align:"center"},
-        {name:'prerequisito',index:'prerequisito', width:300,align:"center"},
-    ],
-
-    rowNum: 7, 
-    pager: '#pager_noticia',
-    sortname: 'id',
-    viewrecords: true,
-    pgbuttons: false,
-    pgtext: false,
-    pginput:false,
-    shrinkToFit:false,
-    hiddengrid: true,
-    sortorder: "desc",
-    scrollOffset: true,
-    imgpath: 'themes/steel/images',
-    gridComplete: function(){
-        var ids = $("#list_noticia").getDataIDs();
-        for(var i=0;i < ids.length;i++){
-            var cl = ids[i];
-            bv = "<input style='height:22px;width:32px;' type='button' id='bt_add_cad_administrador' value='Ver'  />";
-
-            $("#list_noticia").setRowData(ids[i],{act:bv});
-
-         }
-    },
-    editurl: "local",
-    caption:"Noticias Pendentes "
-});
-
-
 jQuery("#list_grade_1").jqGrid({
     url:'libs/lib_grade.php?reference=grade&action=grid_buscar_grade1',
     width:520,
@@ -74,10 +32,11 @@ jQuery("#list_grade_1").jqGrid({
         var ids = $("#list_grade_1").getDataIDs();
         for(var i=0;i < ids.length;i++){
             var cl = ids[i];
-            bv = "<input style='height:22px;width:32px;' type='button' id='bt_add_cad_administrador' value='Ver' />";
+            bv = "<input style='height:22px;width:32px;' class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' type='button' id='bt_ver_ementa' value='Ver' onclick=\" exibe('1')\"  />";
 
             $("#list_grade_1").setRowData(ids[i],{act:bv});
-        }
+
+         }
     },
     //editurl: 'libs/lib_grade.php?reference=grade&action=grid_buscar_grade1',
     caption: "1º Semestre"
@@ -89,16 +48,17 @@ jQuery("#list_grade_2").jqGrid({
     width:520,
     height:190,
     datatype: "xml",
-    colNames:['Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
+    colNames:['Ementa', 'Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
     colModel:[
-        {name:'materia',index:'materia', width:200,sortable:false,align:"center"},
-        {name:'disciplina',index:'disciplina', width:200, editable:false,align:"center"},
-        {name:'carhoraria',index:'carhoraria', width:85,editable:false, align:"center"},
-        {name:'creditos',index:'creditos', width:50, align:"center",editable:false},
-        {name:'prerequisito',index:'prerequisito', width:300,editable:false, align:"center"},
+        {name:'act',index:'act', width:50, sortable:false},
+        {name:'materia',index:'materia', width:200,align:"center"},
+        {name:'disciplina',index:'disciplina', width:200, align:"center"},
+        {name:'carhoraria',index:'carhoraria', width:85,align:"center"},
+        {name:'creditos',index:'creditos', width:50, align:"center"},
+        {name:'prerequisito',index:'prerequisito', width:300,align:"center"},
     ],
     rowNum:7,
-    pager: '#pager_grade_2',
+    pager: jQuery('#pager_grade_2'),
     pgbuttons: false,
     pgtext: false,
     pginput:false,
@@ -109,14 +69,17 @@ jQuery("#list_grade_2").jqGrid({
     shrinkToFit:false,
     scrollOffset: true,
     imgpath: 'themes/steel/images',
-    onSelectRow: function(id){
-        if(id && id!=lastsel){
-            $('#list_grade_2').restoreRow(lastsel);
+    gridComplete: function(){
+        var ids = $("#list_grade_2").getDataIDs();
+        for(var i=0;i < ids.length;i++){
+            var cl = ids[i];
+            bv = "<input style='height:22px;width:32px;' class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' type='button' id='bt_ver_ementa' value='Ver' onclick=\" exibe('2')\"  />";
 
-            lastsel=id;
-        }
+            $("#list_grade_2").setRowData(ids[i],{act:bv});
+
+         }
     },
-    //editurl: "local",
+    //editurl: 'libs/lib_grade.php?reference=grade&action=grid_buscar_grade1',
     caption: "2º Semestre"
 
 });
@@ -128,16 +91,17 @@ jQuery("#list_grade_3").jqGrid({
     width:520,
     height:190,
     datatype: "xml",
-    colNames:['Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
+    colNames:['Ementa', 'Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
     colModel:[
-        {name:'materia',index:'materia', width:200,sortable:false,align:"center"},
-        {name:'disciplina',index:'disciplina', width:200, editable:false,align:"center"},
-        {name:'carhoraria',index:'carhoraria', width:85,editable:false, align:"center"},
-        {name:'creditos',index:'creditos', width:50, align:"center",editable:false},
-        {name:'prerequisito',index:'prerequisito', width:300,editable:false, align:"center"},
+        {name:'act',index:'act', width:50, sortable:false},
+        {name:'materia',index:'materia', width:200,align:"center"},
+        {name:'disciplina',index:'disciplina', width:200, align:"center"},
+        {name:'carhoraria',index:'carhoraria', width:85,align:"center"},
+        {name:'creditos',index:'creditos', width:50, align:"center"},
+        {name:'prerequisito',index:'prerequisito', width:300,align:"center"},
     ],
     rowNum:7,
-    pager: '#pager_grade_3',
+    pager: jQuery('#pager_grade_3'),
     pgbuttons: false,
     pgtext: false,
     pginput:false,
@@ -148,14 +112,17 @@ jQuery("#list_grade_3").jqGrid({
     shrinkToFit:false,
     scrollOffset: true,
     imgpath: 'themes/steel/images',
-    onSelectRow: function(id){
-        if(id && id!=lastsel){
-            $('#list_grade_3').restoreRow(lastsel);
+    gridComplete: function(){
+        var ids = $("#list_grade_3").getDataIDs();
+        for(var i=0;i < ids.length;i++){
+            var cl = ids[i];
+            bv = "<input style='height:22px;width:32px;' class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' type='button' id='bt_ver_ementa' value='Ver' onclick=\" exibe('3')\"  />";
 
-            lastsel=id;
-        }
+            $("#list_grade_3").setRowData(ids[i],{act:bv});
+
+         }
     },
-    //editurl: "local",
+    //editurl: 'libs/lib_grade.php?reference=grade&action=grid_buscar_grade1',
     caption: "3º Semestre"
 
 });
@@ -167,16 +134,17 @@ jQuery("#list_grade_4").jqGrid({
     width:520,
     height:190,
     datatype: "xml",
-    colNames:['Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
+    colNames:['Ementa', 'Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
     colModel:[
-        {name:'materia',index:'materia', width:200,sortable:false,align:"center"},
-        {name:'disciplina',index:'disciplina', width:200, editable:false,align:"center"},
-        {name:'carhoraria',index:'carhoraria', width:85,editable:false, align:"center"},
-        {name:'creditos',index:'creditos', width:50, align:"center",editable:false},
-        {name:'prerequisito',index:'prerequisito', width:300,editable:false, align:"center"},
+        {name:'act',index:'act', width:50, sortable:false},
+        {name:'materia',index:'materia', width:200,align:"center"},
+        {name:'disciplina',index:'disciplina', width:200, align:"center"},
+        {name:'carhoraria',index:'carhoraria', width:85,align:"center"},
+        {name:'creditos',index:'creditos', width:50, align:"center"},
+        {name:'prerequisito',index:'prerequisito', width:300,align:"center"},
     ],
     rowNum:7,
-    pager: '#pager_grade_4',
+    pager: jQuery('#pager_grade_4'),
     pgbuttons: false,
     pgtext: false,
     pginput:false,
@@ -187,14 +155,17 @@ jQuery("#list_grade_4").jqGrid({
     shrinkToFit:false,
     scrollOffset: true,
     imgpath: 'themes/steel/images',
-    onSelectRow: function(id){
-        if(id && id!=lastsel){
-            $('#list_grade_4').restoreRow(lastsel);
+    gridComplete: function(){
+        var ids = $("#list_grade_4").getDataIDs();
+        for(var i=0;i < ids.length;i++){
+            var cl = ids[i];
+            bv = "<input style='height:22px;width:32px;' class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' type='button' id='bt_ver_ementa' value='Ver' onclick=\" exibe('4')\"  />";
 
-            lastsel=id;
-        }
+            $("#list_grade_4").setRowData(ids[i],{act:bv});
+
+         }
     },
-    //editurl: "local",
+    //editurl: 'libs/lib_grade.php?reference=grade&action=grid_buscar_grade1',
     caption: "4º Semestre"
 
 });
@@ -206,16 +177,17 @@ jQuery("#list_grade_5").jqGrid({
     width:520,
     height:190,
     datatype: "xml",
-    colNames:['Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
+    colNames:['Ementa', 'Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
     colModel:[
-        {name:'materia',index:'materia', width:200,sortable:false,align:"center"},
-        {name:'disciplina',index:'disciplina', width:200, editable:false,align:"center"},
-        {name:'carhoraria',index:'carhoraria', width:85,editable:false, align:"center"},
-        {name:'creditos',index:'creditos', width:50, align:"center",editable:false},
-        {name:'prerequisito',index:'prerequisito', width:300,editable:false, align:"center"},
+        {name:'act',index:'act', width:50, sortable:false},
+        {name:'materia',index:'materia', width:200,align:"center"},
+        {name:'disciplina',index:'disciplina', width:200, align:"center"},
+        {name:'carhoraria',index:'carhoraria', width:85,align:"center"},
+        {name:'creditos',index:'creditos', width:50, align:"center"},
+        {name:'prerequisito',index:'prerequisito', width:300,align:"center"},
     ],
     rowNum:7,
-    pager: '#pager_grade_5',
+    pager: jQuery('#pager_grade_5'),
     pgbuttons: false,
     pgtext: false,
     pginput:false,
@@ -226,14 +198,17 @@ jQuery("#list_grade_5").jqGrid({
     shrinkToFit:false,
     scrollOffset: true,
     imgpath: 'themes/steel/images',
-    onSelectRow: function(id){
-        if(id && id!=lastsel){
-            $('#list_grade_5').restoreRow(lastsel);
+    gridComplete: function(){
+        var ids = $("#list_grade_5").getDataIDs();
+        for(var i=0;i < ids.length;i++){
+            var cl = ids[i];
+            bv = "<input style='height:22px;width:32px;' class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' type='button' id='bt_ver_ementa' value='Ver' onclick=\" exibe('5')\"  />";
 
-            lastsel=id;
-        }
+            $("#list_grade_5").setRowData(ids[i],{act:bv});
+
+         }
     },
-    //editurl: "local",
+    //editurl: 'libs/lib_grade.php?reference=grade&action=grid_buscar_grade1',
     caption: "5º Semestre"
 
 });
@@ -245,16 +220,17 @@ jQuery("#list_grade_6").jqGrid({
     width:520,
     height:190,
     datatype: "xml",
-    colNames:['Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
+    colNames:['Ementa', 'Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
     colModel:[
-        {name:'materia',index:'materia', width:200,sortable:false,align:"center"},
-        {name:'disciplina',index:'disciplina', width:200, editable:false,align:"center"},
-        {name:'carhoraria',index:'carhoraria', width:85,editable:false, align:"center"},
-        {name:'creditos',index:'creditos', width:50, align:"center",editable:false},
-        {name:'prerequisito',index:'prerequisito', width:300,editable:false, align:"center"},
+        {name:'act',index:'act', width:50, sortable:false},
+        {name:'materia',index:'materia', width:200,align:"center"},
+        {name:'disciplina',index:'disciplina', width:200, align:"center"},
+        {name:'carhoraria',index:'carhoraria', width:85,align:"center"},
+        {name:'creditos',index:'creditos', width:50, align:"center"},
+        {name:'prerequisito',index:'prerequisito', width:300,align:"center"},
     ],
     rowNum:7,
-    pager: '#pager_grade_6',
+    pager: jQuery('#pager_grade_6'),
     pgbuttons: false,
     pgtext: false,
     pginput:false,
@@ -265,14 +241,17 @@ jQuery("#list_grade_6").jqGrid({
     shrinkToFit:false,
     scrollOffset: true,
     imgpath: 'themes/steel/images',
-    onSelectRow: function(id){
-        if(id && id!=lastsel){
-            $('#list_grade_6').restoreRow(lastsel);
+    gridComplete: function(){
+        var ids = $("#list_grade_6").getDataIDs();
+        for(var i=0;i < ids.length;i++){
+            var cl = ids[i];
+            bv = "<input style='height:22px;width:32px;' class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' type='button' id='bt_ver_ementa' value='Ver' onclick=\" exibe('6')\"  />";
 
-            lastsel=id;
-        }
+            $("#list_grade_6").setRowData(ids[i],{act:bv});
+
+         }
     },
-    //editurl: "local",
+    //editurl: 'libs/lib_grade.php?reference=grade&action=grid_buscar_grade1',
     caption: "6º Semestre"
 
 });
@@ -284,16 +263,17 @@ jQuery("#list_grade_7").jqGrid({
     width:520,
     height:190,
     datatype: "xml",
-    colNames:['Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
+    colNames:['Ementa', 'Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
     colModel:[
-        {name:'materia',index:'materia', width:200,sortable:false,align:"center"},
-        {name:'disciplina',index:'disciplina', width:200, editable:false,align:"center"},
-        {name:'carhoraria',index:'carhoraria', width:85,editable:false, align:"center"},
-        {name:'creditos',index:'creditos', width:50, align:"center",editable:false},
-        {name:'prerequisito',index:'prerequisito', width:300,editable:false, align:"center"},
+        {name:'act',index:'act', width:50, sortable:false},
+        {name:'materia',index:'materia', width:200,align:"center"},
+        {name:'disciplina',index:'disciplina', width:200, align:"center"},
+        {name:'carhoraria',index:'carhoraria', width:85,align:"center"},
+        {name:'creditos',index:'creditos', width:50, align:"center"},
+        {name:'prerequisito',index:'prerequisito', width:300,align:"center"},
     ],
     rowNum:7,
-    pager: '#pager_grade_7',
+    pager: jQuery('#pager_grade_7'),
     pgbuttons: false,
     pgtext: false,
     pginput:false,
@@ -304,14 +284,17 @@ jQuery("#list_grade_7").jqGrid({
     shrinkToFit:false,
     scrollOffset: true,
     imgpath: 'themes/steel/images',
-    onSelectRow: function(id){
-        if(id && id!=lastsel){
-            $('#list_grade_7').restoreRow(lastsel);
+    gridComplete: function(){
+        var ids = $("#list_grade_7").getDataIDs();
+        for(var i=0;i < ids.length;i++){
+            var cl = ids[i];
+            bv = "<input style='height:22px;width:32px;' class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' type='button' id='bt_ver_ementa' value='Ver' onclick=\" exibe('7')\"  />";
 
-            lastsel=id;
-        }
+            $("#list_grade_7").setRowData(ids[i],{act:bv});
+
+         }
     },
-    //editurl: "local",
+    //editurl: 'libs/lib_grade.php?reference=grade&action=grid_buscar_grade1',
     caption: "7º Semestre"
 
 });
@@ -322,16 +305,17 @@ jQuery("#list_grade_8").jqGrid({
     width:520,
     height:190,
     datatype: "xml",
-    colNames:['Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
+    colNames:['Ementa', 'Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
     colModel:[
-        {name:'materia',index:'materia', width:200,sortable:false,align:"center"},
-        {name:'disciplina',index:'disciplina', width:200, editable:false,align:"center"},
-        {name:'carhoraria',index:'carhoraria', width:85,editable:false, align:"center"},
-        {name:'creditos',index:'creditos', width:50, align:"center",editable:false},
-        {name:'prerequisito',index:'prerequisito', width:300,editable:false, align:"center"},
+        {name:'act',index:'act', width:50, sortable:false},
+        {name:'materia',index:'materia', width:200,align:"center"},
+        {name:'disciplina',index:'disciplina', width:200, align:"center"},
+        {name:'carhoraria',index:'carhoraria', width:85,align:"center"},
+        {name:'creditos',index:'creditos', width:50, align:"center"},
+        {name:'prerequisito',index:'prerequisito', width:300,align:"center"},
     ],
     rowNum:7,
-    pager: '#pager_grade_8',
+    pager: jQuery('#pager_grade_8'),
     pgbuttons: false,
     pgtext: false,
     pginput:false,
@@ -342,14 +326,17 @@ jQuery("#list_grade_8").jqGrid({
     shrinkToFit:false,
     scrollOffset: true,
     imgpath: 'themes/steel/images',
-    onSelectRow: function(id){
-        if(id && id!=lastsel){
-            $('#list_grade_8').restoreRow(lastsel);
+    gridComplete: function(){
+        var ids = $("#list_grade_8").getDataIDs();
+        for(var i=0;i < ids.length;i++){
+            var cl = ids[i];
+            bv = "<input style='height:22px;width:32px;' class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' type='button' id='bt_ver_ementa' value='Ver' onclick=\" exibe('8')\"  />";
 
-            lastsel=id;
-        }
+            $("#list_grade_8").setRowData(ids[i],{act:bv});
+
+         }
     },
-    //editurl: "local",
+    //editurl: 'libs/lib_grade.php?reference=grade&action=grid_buscar_grade1',
     caption: "8º Semestre"
 
 });
@@ -357,19 +344,19 @@ jQuery("#list_grade_8").jqGrid({
 jQuery("#list_grade_optativa").jqGrid({
     url:'libs/lib_grade.php?reference=grade&action=grid_buscar_grade_optativa',
     width:520,
-    height: 190,
+    height:190,
     datatype: "xml",
-    colNames:['Matéria', 'Disciplina', 'Semestre', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
+    colNames:['Ementa', 'Matéria', 'Disciplina', 'Carga Horária', 'Créditos', 'Pré-Requisito'],
     colModel:[
-        {name:'materia',index:'materia', width:200,sortable:false,align:"center"},
-        {name:'disciplina',index:'disciplina', width:200, editable:false,align:"center"},
-        {name:'semestre',index:'semestre', width:70, editable:false,align:"center"},
-        {name:'carhoraria',index:'carhoraria', width:85,editable:false, align:"center"},
-        {name:'creditos',index:'creditos', width:50, align:"center",editable:false},
-        {name:'prerequisito',index:'prerequisito', width:300,editable:false, align:"center"},
+        {name:'act',index:'act', width:50, sortable:false},
+        {name:'materia',index:'materia', width:200,align:"center"},
+        {name:'disciplina',index:'disciplina', width:200, align:"center"},
+        {name:'carhoraria',index:'carhoraria', width:85,align:"center"},
+        {name:'creditos',index:'creditos', width:50, align:"center"},
+        {name:'prerequisito',index:'prerequisito', width:300,align:"center"},
     ],
     rowNum:7,
-    pager: '#pager_grade_optativa',
+    pager: jQuery('#pager_grade_optativa'),
     pgbuttons: false,
     pgtext: false,
     pginput:false,
@@ -380,14 +367,17 @@ jQuery("#list_grade_optativa").jqGrid({
     shrinkToFit:false,
     scrollOffset: true,
     imgpath: 'themes/steel/images',
-    onSelectRow: function(id){
-        if(id && id!=lastsel){
-            $('#list_grade_optativa').restoreRow(lastsel);
+    gridComplete: function(){
+        var ids = $("#list_grade_optativa").getDataIDs();
+        for(var i=0;i < ids.length;i++){
+            var cl = ids[i];
+            bv = "<input style='height:22px;width:32px;' class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' type='button' id='bt_ver_ementa' value='Ver' onclick=\" exibe('optativa')\"  />";
 
-            lastsel=id;
-        }
+            $("#list_grade_optativa").setRowData(ids[i],{act:bv});
+
+         }
     },
-    //editurl: "local",
+    //editurl: 'libs/lib_grade.php?reference=grade&action=grid_buscar_grade1',
     caption: "Disciplinas Optativas"
 
 });
@@ -398,13 +388,13 @@ jQuery("#list_grade_optativa").jqGrid({
   $('#bt_ok_busca_grade').click(function(){
 
             //Pega os valores do formulário
-            var id_grade = $("#buscar_id_grade").val();
-            alert(id_grade);
+            id_grade = $("#buscar_id_grade").val();
+            //alert(id_grade);
 
             //Armazena os valores do formulário na variável dataString
             var dataString = 'id_grade=' + id_grade;
 
-           var opcao= 'grid_buscar_grade1';
+            var opcao= 'grid_buscar_grade1';
 
             //Envia a variável dataString para a lib que insere no banco de dados
             $.ajax({
@@ -415,37 +405,55 @@ jQuery("#list_grade_optativa").jqGrid({
                     //dataType: "html",
                     success: function(){
                      //$("#cad_adm").hide();
-                     $("#list_grade_1").trigger("reloadGrid");
+                        $("#list_grade_1").trigger("reloadGrid");
                     }
                 });
 
     })
 
+// -------------------------------------EXIBIR A EMENTA DA DISCIPLINA--------------------------
+
+function exibe(num_semestre)
+{
+    var id = $("#list_grade_"+num_semestre).getGridParam('selrow');
+
+    if(id)
+    {
+
+        //Armazena os valores do formulário na variável dataString
+        var dataString = 'id_ementa=' + id;
+
+        var opcao = 'consulta_ementa';
+
+        //Envia a variável dataString para a lib que insere no banco de dados
+        $.ajax({
+                        type: "GET",
+                        url: "libs/lib_grade.php?reference=grade&action="+ opcao,
+                        processData: false,
+                        data: dataString,
+                        success: function(msg){
+                           alert(msg);
+
+                         }
+         });
+
+        //$dialog.dialog('option', 'title', 'Ementa');
+        //$dialog.dialog('open');
+    }
+    else
+        alert("Selecione uma linha!");
+
+
+}
+
 
 
  // -------------------------------------ABRE FORMULÁRIO PARA CADASTRO E EDIÇÃO--------------------------
-   var $dialog = $('#form_cad_adm').dialog({
+   var $dialog = $('#form_ver_ementa').dialog({
         width:350,
         height:260,
         modal: true,
         autoOpen: false
-    });
-
-
-
-    //-----------------------------Chama a função que abre o formulário para cadastro-----------------
-
-   $('#bt_add_cad_administrador').click(function(){
-        //Reseta o formulário
-
-       $dialog.dialog('option', 'title', 'Cadastrar Administrador');
-       $dialog.dialog('open');
-
-       alert("OI");
-
-
-       
-
 
     });
 
@@ -468,13 +476,6 @@ jQuery("#list_grade_optativa").jqGrid({
      <input type="button" id="bt_ok_busca_grade" value="OK" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"/>
 
 </div>
-
- <!--Exibe a Grid-->
-<div id="form">
-    <table id="list_noticia" class="scroll" cellpadding="0" cellspacing="0"> </table>
-    <div id="pager_noticia" class="scroll" style="text-align:center;"></div>
-</div>
-
 
 <div id="form">
     <table id="list_grade_1" class="scroll" cellpadding="0" cellspacing="0"> </table>
@@ -517,12 +518,12 @@ jQuery("#list_grade_optativa").jqGrid({
 </div>
 
 <!-- Formulário de cadastro e edição-->
-<div id="form_cad">
-    <form class="dialog-form" id="form_cad_adm" >
-        <p>Materiahfxvghfbvjgx</p>
-	
+<div id="cad_adm" style="display:none;">
+    <form class="dialog-form" id="form_ver_ementa" style="background-color:white;" >
+           <p><!--{$ementa}--></p>
     </form>
-  </div>
+</div>
+
 
 
 
