@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-06-02 17:09:20
+<?php /* Smarty version 2.6.26, created on 2010-06-03 15:50:03
          compiled from administrador.tpl */ ?>
 
 
@@ -47,17 +47,15 @@ $(function() {
                 <ul>
                     <li id="cad_cargo"><a href="#">Cargo</a></li>
                     <li id="cad_sala"><a href="#">Sala</a></li>
+                    <li id="cad_areainteresse"><a href="#">Área de Interesse</a></li>
                     <li id="cad_grade"><a href="#">Grade Acadêmica</a></li>
                     <li id="cad_materia"><a href="#">Matéria</a></li>
                     <li id="cad_disciplina"><a href="#">Disciplina</a></li>
+                    <li id="cad_ementa"><a href="#">Ementa</a></li>
                     <li id="cad_horario"><a href="#">Horario</a></li>
                     <li id="cad_requisito"><a href="#">Pré-requisito</a></li>
-
                     <li id="cad_administrador"><a href="#">Administrador</a></li>
-                   
                     <li id="cad_moderador"><a href="#">Moderador</a></li>
-                   
-                    
                     <li id="cad_professor"><a href="#">Professor</a></li>
                     <li id="cad_aluno"><a href="#">Aluno</a></li>
                     <li id="alocar_professor"><a href="#">Alocar Professor</a></li>
@@ -120,4 +118,4 @@ $(function() {
        </div>
 
   </body>
-</html>
+</html>

@@ -39,14 +39,19 @@ $(function() {
             <h3>Cadastrar</h3>
                 <ul>
                     <li id="cad_cargo"><a href="#">Cargo</a></li>
+                    <li id="cad_sala"><a href="#">Sala</a></li>
+                    <li id="cad_areainteresse"><a href="#">Área de Interesse</a></li>
                     <li id="cad_grade"><a href="#">Grade Acadêmica</a></li>
                     <li id="cad_materia"><a href="#">Matéria</a></li>
                     <li id="cad_disciplina"><a href="#">Disciplina</a></li>
+                    <li id="cad_ementa"><a href="#">Ementa</a></li>
                     <li id="cad_horario"><a href="#">Horario</a></li>
+                    <li id="cad_requisito"><a href="#">Pré-requisito</a></li>
                     <li id="cad_professor"><a href="#">Professor</a></li>
                     <li id="cad_aluno"><a href="#">Aluno</a></li>
                     <li id="alocar_professor"><a href="#">Alocar Professor</a></li>
-                </ul>
+
+             </ul>
             <h3>Pagina Inicial</h3>
                 <ul>
                     <li id="adm_objetivo"><a href="#">Objetivo</a></li>

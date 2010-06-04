@@ -44,13 +44,13 @@ switch ($request_reference) {
 
                     //Insere no banco
                     $SQL3 = pg_query("INSERT INTO docente (matricula, id_user) VALUES ('$request_matricula', '$idUser')") or die("Não foi possível inserir na tabela adminmoderador".pg_last_error());
-                    $SQL4 = pg_query("INSERT INTO autenticacao (identificador, id_user, id_tpuser) VALUES ('$request_matricula', '$idUser', '4')") or die("Não foi possível inserir na tabela adminmoderador".pg_last_error());
+                    $SQL4 = pg_query("INSERT INTO autenticacao (identificador, id_user, id_tpuser) VALUES ('$request_matricula', '$idUser', '3')") or die("Não foi possível inserir na tabela adminmoderador".pg_last_error());
 
 
                 }
                 else{
                     $SQL5 = pg_query("INSERT INTO docente (matricula, id_user) VALUES ('$request_matricula', '$id')") or die("Não foi possível inserir na tabela adminmoderador".pg_last_error());
-                    $SQL6 = pg_query("INSERT INTO autenticacao (identificador, id_user, id_tpuser) VALUES ('$request_matricula', '$id', '4')") or die("Não foi possível inserir na tabela adminmoderador".pg_last_error());
+                    $SQL6 = pg_query("INSERT INTO autenticacao (identificador, id_user, id_tpuser) VALUES ('$request_matricula', '$id', '3')") or die("Não foi possível inserir na tabela adminmoderador".pg_last_error());
 
 
                }
@@ -87,7 +87,7 @@ switch ($request_reference) {
                    $SQL = pg_query("UPDATE usuario SET nome = '$request_nome', sobrenome = '$request_sobrenome', email= '$request_email', dt_nasc = '$request_nascimento', cpf= '$request_cpf' WHERE (id_user = $request_id)") or die("Nao pode atualizar usuario".pg_last_error());
                    $SQL1 = pg_query("UPDATE adminmoderador SET matricula = '$request_matricula' WHERE (id_user = $request_id)") or die("Nao pode atualizar adminmoderador".pg_last_error());
                    $SQL2 = pg_query("UPDATE docente SET matricula = '$request_matricula' WHERE (id_user = $request_id)") or die("Nao pode atualizar docente".pg_last_error());
-                   $SQL3 = pg_query("UPDATE autenticacao SET identificador = '$request_matricula' WHERE (id_user = $request_id AND id_tpuser = '4')") or die("Nao pode atualizar autenticacao".pg_last_error());
+                   $SQL3 = pg_query("UPDATE autenticacao SET identificador = '$request_matricula' WHERE (id_user = $request_id AND id_tpuser = '3')") or die("Nao pode atualizar autenticacao".pg_last_error());
 
                }
 
@@ -116,7 +116,7 @@ switch ($request_reference) {
                 else{
                     //Apaga da tabela adminmoderador
                     $SQL3 = pg_query("DELETE FROM docente WHERE (id_user = $request_id)");
-                    $SQL3 = pg_query("DELETE FROM autenticacao WHERE (id_user = $request_id AND id_tpuser = '4' )");
+                    $SQL3 = pg_query("DELETE FROM autenticacao WHERE (id_user = $request_id AND id_tpuser = '3' )");
 
                 }
 
@@ -133,7 +133,7 @@ switch ($request_reference) {
 
                 if(!$sidx) $sidx =1;
 
-                $result = pg_query("SELECT COUNT(*) AS count FROM autenticacao WHERE id_tpuser = 4");
+                $result = pg_query("SELECT COUNT(*) AS count FROM autenticacao WHERE id_tpuser = 3");
                 $row = pg_fetch_array($result);
                 $count = $row['count'];
 
@@ -150,7 +150,7 @@ switch ($request_reference) {
                 if($start <0) $start = 0;
 
 
-               $SQL = "SELECT U.id_user, U.cpf, A.matricula, U.nome, U.email, U.sobrenome, DATE(U.dt_nasc) as dtnasc  FROM usuario U, docente A, autenticacao L WHERE U.id_user = A.id_user AND U.id_user = L.id_user AND id_tpuser = 4 ORDER BY nome";
+               $SQL = "SELECT U.id_user, U.cpf, A.matricula, U.nome, U.email, U.sobrenome, DATE(U.dt_nasc) as dtnasc  FROM usuario U, docente A, autenticacao L WHERE U.id_user = A.id_user AND U.id_user = L.id_user AND id_tpuser = 3 ORDER BY nome";
                $result = pg_query( $SQL ) or die("Couldn t execute query.");
 
 

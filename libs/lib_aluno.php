@@ -40,7 +40,7 @@ switch ($request_reference) {
                     
                     //Insere no banco
                     $SQL3 = pg_query("INSERT INTO aluno (matricula, ano_entrada, semestre_entrada,  situacao, id_user) VALUES ('$request_matricula', '$request_entrada', '$request_periodo', '$request_situacao', '$idUser')")or die("Nao pode inserir em aluno".pg_last_error());
-                    $SQL3 = pg_query("INSERT INTO autenticacao (identificador, id_user, id_tpuser) VALUES ('$request_matricula', '$idUser', '5')")or die("Nao pode inserir em aluno".pg_last_error());
+                    $SQL3 = pg_query("INSERT INTO autenticacao (identificador, id_user, id_tpuser) VALUES ('$request_matricula', '$idUser', '4')")or die("Nao pode inserir em aluno".pg_last_error());
 
                     echo "Aluno cadastrado com sucesso!";
             break;
@@ -110,7 +110,7 @@ switch ($request_reference) {
                 if($start <0) $start = 0;
 
 
-                $SQL = "SELECT U.id_user, A.matricula, U.nome, U.cpf, U.email, U.sobrenome, DATE(U.dt_nasc) as data, A.situacao, A.semestre_entrada, A.semestre, A.ano_entrada FROM usuario U JOIN aluno A ON A.id_user = U.id_user ORDER BY nome";
+                $SQL = "SELECT U.id_user, A.matricula, U.nome, U.cpf, U.email, U.sobrenome, FuncFormataData(U.dt_nasc) as data, A.situacao, A.semestre_entrada, A.semestre, A.ano_entrada FROM usuario U JOIN aluno A ON A.id_user = U.id_user ORDER BY nome";
                 $result = pg_query( $SQL ) or die("Couldn t execute query.".pq_last_error());
 
                 if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {

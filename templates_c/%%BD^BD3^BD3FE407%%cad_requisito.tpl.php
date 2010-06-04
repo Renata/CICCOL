@@ -1,11 +1,11 @@
-<?php /* Smarty version 2.6.26, created on 2010-05-30 23:56:56
+<?php /* Smarty version 2.6.26, created on 2010-06-03 18:00:09
          compiled from cad_requisito.tpl */ ?>
 <script type="text/javascript" charset="ISO-8859-1">
 //----------------------------------Grid Requisito---------------------
 
 var lastsel;
 jQuery("#list_requisito").jqGrid({
-    url: "libs/lib_requisito.php?reference=requisito&action=grid_buscar_requisito",
+    url: "libs/lib_cad_requisito.php?reference=requisito&action=grid_buscar_requisito",
     width: 530,
     datatype: "xml",
     colNames:['Disciplina', 'Requisito'],
@@ -86,7 +86,7 @@ jQuery("#list_requisito").jqGrid({
         if(gsr){
             $.ajax({
                 type: "GET",
-                url: "libs/lib_requisito.php?reference=requisito&action=apagar_requisito",
+                url: "libs/lib_cad_requisito.php?reference=requisito&action=apagar_requisito",
                 processData: false,
                 data: dataString,
                 success: function(){
@@ -107,11 +107,14 @@ jQuery("#list_requisito").jqGrid({
             //Pega os valores do formulário
             var disciplina = $("#cad_requisito_disciplina").val();
             var id_cad = $("#cad_requisito_id").val();
-            var requisito = new Array();
-              $(".check:checked").each(function(){
-               // Adiciona valor do checkbox
-               requisito += this.value;
-              });
+
+            var requisito = [];
+
+            //Função para pegar os valores do segundo select
+            $("#select2 option:selected").each(function() {
+                requisito.push($(this).val());
+            });
+
 
            //Armazena os valores do formulário na variável dataString
             var dataString = 'disciplina=' + disciplina + '&requisito=' + requisito + '&cad_id=' + id_cad ;
@@ -125,7 +128,7 @@ jQuery("#list_requisito").jqGrid({
             //Envia a variável dataString para a lib que insere no banco de dados
             $.ajax({
                     type: "GET",
-                    url: "libs/lib_requisito.php?reference=requisito&action="+ opcao,
+                    url: "libs/lib_cad_requisito.php?reference=requisito&action="+ opcao,
                     processData: false,
                     data: dataString,
                     //dataType: "html",
@@ -161,7 +164,7 @@ $("#cad_requisito_disciplina").blur(function(){
             
     $.ajax({
         type: "GET",
-        url: "libs/lib_requisito.php?reference=requisito&action=buscar_turma",
+        url: "libs/lib_cad_requisito.php?reference=requisito&action=buscar_turma",
         processData: false,
         data: dataString,
         success: function(msg){
@@ -171,6 +174,17 @@ $("#cad_requisito_disciplina").blur(function(){
                 $("#cad_requisito_turma").html("<option value=\"1\">Turma A</option><option value=\"2\">Turma B</option>");
         }
     });
+});
+
+
+
+$('#add').click(function() {
+      return !$('#select1 option:selected').remove().appendTo('#select2');
+
+});
+
+$('#remove').click(function() {
+      return !$('#select2 option:selected').remove().appendTo('#select1');
 });
 
 
@@ -241,10 +255,15 @@ $this->_sections['cont_disciplina']['last']       = ($this->_sections['cont_disc
                         <option><?php echo $this->_tpl_vars['disc'][$this->_sections['cont_disciplina']['index']]['disciplina']; ?>
 </option>
                         <?php endfor; endif; ?>
-                    </select><br/><br/>
+                    </select><br/><br/><br/>
 
-                    <label>Requisito</label><br/>
-                    <?php unset($this->_sections['cont_disciplina']);
+                   
+                    <label>Requisito:</label><br/><br/>
+                    <center><table width="60%" cellspacing="12">
+                        <tr>
+                            <td align="center">
+                                <select multiple="multiple" id="select1" size="5" name="select1">
+                                <?php unset($this->_sections['cont_disciplina']);
 $this->_sections['cont_disciplina']['name'] = 'cont_disciplina';
 $this->_sections['cont_disciplina']['loop'] = is_array($_loop=$this->_tpl_vars['disc']) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
 $this->_sections['cont_disciplina']['show'] = true;
@@ -268,10 +287,22 @@ $this->_sections['cont_disciplina']['index_next'] = $this->_sections['cont_disci
 $this->_sections['cont_disciplina']['first']      = ($this->_sections['cont_disciplina']['iteration'] == 1);
 $this->_sections['cont_disciplina']['last']       = ($this->_sections['cont_disciplina']['iteration'] == $this->_sections['cont_disciplina']['total']);
 ?>
-                    <p><input type="checkbox" id="cad_requisito_requisito" name="checkbox" value=" <?php echo $this->_tpl_vars['disc'][$this->_sections['cont_disciplina']['index']]['disciplina']; ?>
- " class="check"> <?php echo $this->_tpl_vars['disc'][$this->_sections['cont_disciplina']['index']]['disciplina']; ?>
- </p>
-                     <?php endfor; endif; ?>
+                                <option><?php echo $this->_tpl_vars['disc'][$this->_sections['cont_disciplina']['index']]['disciplina']; ?>
+</option>
+                                <?php endfor; endif; ?>
+                            </select>
+                            </td>
+                            <td align="center">
+                                <select multiple="multiple" id="select2" name="select2" size="5"></select></td>
+
+                        </tr>
+                        <tr><td align="center"><a href="#" id="add"><input type="button" value="ADD &gt;&gt;" id="add" title="OK" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"></a></td>
+
+                            <td align="center"><a href="#" id="remove"><input type="button" value="&lt;&lt; SUB" id="remove" title="OK" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"></a></td>
+                        </tr>
+
+                    </table></center> 
+                    
 
                     <br/><br/>
 

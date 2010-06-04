@@ -36,7 +36,7 @@
     <script src="js/jquery-1.1.3.1.pack.js" type="text/javascript"></script>
     <script src="js/jquery.tabs.pack.js" type="text/javascript"></script>
     <link rel="stylesheet" href="style/jquery.tabs.css" type="text/css" media="print, projection, screen"/>
-
+    <script src="js/md5.js" type="text/javascript"></script>
 
   
 </head>

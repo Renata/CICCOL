@@ -44,7 +44,7 @@ switch ($request_reference)
 
                     //Verifica se foi inserido com sucesso
                     $result = pg_query( $SQL ) or die("Não foi possível cadastrar currículo".pg_last_error());
-                    
+
                     echo "Cadastro realizado com sucesso";
                 }
                 else
@@ -85,8 +85,13 @@ switch ($request_reference)
 
                     }
                 }
+<<<<<<< Updated upstream
                            
                 
+=======
+
+
+>>>>>>> Stashed changes
             break;
 
 
@@ -115,6 +120,7 @@ switch ($request_reference)
                         $result_areaInteresse = pg_query("SELECT id_interesse FROM AreaInteresseCurriculo WHERE (id_curriculo='$request_id_curriculo' AND id_interesse='$idInteresse[$i]')") or die("Não foi possível consultar a área de interesse.".pg_last_error());
                         $rowInteresse = pg_fetch_array($result_areaInteresse);
                         $id = $rowInteresse[id_interesse];
+<<<<<<< Updated upstream
 
                         if($id=="")
                         {
@@ -179,6 +185,72 @@ switch ($request_reference)
                        echo "Atualização realizada com sucesso";
                   }
  
+=======
+
+                        if($id=="")
+                        {
+                            $SQL = ("INSERT INTO AreaInteresseCurriculo(id_curriculo, id_interesse) VALUES ('$request_id_curriculo', '$idInteresse[$i]')");
+
+                            //Verifica se foi atualizado com sucesso
+                            $result = pg_query( $SQL ) or die("A área de interesse não pode ser atualizada".pg_last_error());
+                        }
+
+                    }
+                  }
+
+                  // Removendo as áreas de interesse que não foram novamente selecionadas
+                  $result_Interesse = pg_query("SELECT id_interesse FROM AreaInteresseCurriculo WHERE (id_curriculo='$request_id_curriculo')") or die("Não foi possível consultar a área de interesse.".pg_last_error());
+                  while ($rowInter = pg_fetch_array($result_Interesse))
+                  {
+                            $id = $rowInter["id_interesse"];
+
+                            if(!in_array($id, $idInteresse))
+                            {
+                                //Remove do banco
+                                $SQL = ("DELETE FROM AreaInteresseCurriculo WHERE (id_interesse = '$id')");
+
+                                //Verifica se foi removido com sucesso
+                                $result = pg_query( $SQL ) or die("A área de interesse não pode ser removida do currículo".pg_last_error());
+
+                            }
+
+                  }
+
+
+
+                  //Busca id do cargo
+                  $SQL_Cargo = ("SELECT id_cargo FROM Cargo WHERE descricao='$request_cargo'");
+                  $result_cargo = pg_query( $SQL_Cargo ) or die("Não foi possível encontrar o cargo.".pg_last_error());
+                  $rowCargo = pg_fetch_array($result_cargo);
+                  $idCargo = $rowCargo[id_cargo];
+
+                  //Busca o número de matrícula do Docente
+                  $SQL_Doc = ("SELECT matricula FROM Docente WHERE matricula IN (SELECT identificador FROM Autenticacao WHERE identificador='12310488')");
+                  $result_doc = pg_query( $SQL_Doc ) or die("Não foi possível encontrar a matricula do Docente.".pg_last_error());
+                  $rowDoc = pg_fetch_array($result_doc);
+                  $doc_matricula = $rowDoc[matricula];
+
+                  if($idCargo=="")
+                  {
+                      //Atualiza no banco
+                      $SQL = ("UPDATE Curriculo SET perfil_profissional = '$request_perfil_profissional', ultimo_emprego = '$request_ultimo_emprego', id_cargo_atual = NULL, doc_matricula = '$doc_matricula' WHERE (id_curriculo = '$request_id_curriculo')");
+
+                      //Verifica se foi atualizado com sucesso
+                      $result = pg_query( $SQL ) or die("Couldn t execute query".pg_last_error());
+
+                      echo "Atualização realizada com sucesso";
+                  }
+                  else
+                  {
+                      //Atualiza no banco
+                      $SQL = ("UPDATE Curriculo SET perfil_profissional = '$request_perfil_profissional', ultimo_emprego = '$request_ultimo_emprego', id_cargo_atual = '$idCargo', doc_matricula = '$doc_matricula' WHERE (id_curriculo = '$request_id_curriculo')");
+
+                      //Verifica se foi inserido com sucesso
+                      $result = pg_query( $SQL ) or die("Couldn t execute query".pg_last_error());
+                       echo "Atualização realizada com sucesso";
+                  }
+
+>>>>>>> Stashed changes
             break;
 
 
@@ -186,6 +258,7 @@ switch ($request_reference)
 
                   //Recebe as variáveis do datastring
                   $request_id = trim($_REQUEST['id_curriculo']);
+<<<<<<< Updated upstream
                   
                   //Remove do banco
                   $SQLInteresse = ("DELETE FROM AreaInteresseCurriculo WHERE (id_curriculo = $request_id)");
@@ -199,6 +272,21 @@ switch ($request_reference)
                   //Verifica se foi removido com sucesso
                   $result = pg_query( $SQL ) or die("O currículo não pode ser removido".pg_last_error());
                 
+=======
+
+                  //Remove do banco
+                  $SQLInteresse = ("DELETE FROM AreaInteresseCurriculo WHERE (id_curriculo = $request_id)");
+
+                  //Verifica se foi removido com sucesso
+                  $resultInteresse = pg_query( $SQLInteresse ) or die("A área de interesse não pode ser removida".pg_last_error());
+
+                  //Remove do banco
+                  $SQL = ("DELETE FROM Curriculo WHERE (id_curriculo = $request_id)");
+
+                  //Verifica se foi removido com sucesso
+                  $result = pg_query( $SQL ) or die("O currículo não pode ser removido".pg_last_error());
+
+>>>>>>> Stashed changes
             break;
 
         }

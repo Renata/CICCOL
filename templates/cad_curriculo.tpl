@@ -15,11 +15,18 @@
             $("#select2 option:selected").each(function() {
                 interesse.push($(this).val());
             });
+<<<<<<< Updated upstream
        
 
             //Armazena os valores do formulário na variável dataString
            var dataString = 'perfil_profissional=' + perfil_profissional + '&ultimo_emprego=' + ultimo_emprego + '&cargo=' + cargo + '&id_curriculo=' + id_curriculo + '&interesse=' + interesse;
+=======
 
+>>>>>>> Stashed changes
+
+            //Armazena os valores do formulário na variável dataString
+           var dataString = 'perfil_profissional=' + perfil_profissional + '&ultimo_emprego=' + ultimo_emprego + '&cargo=' + cargo + '&id_curriculo=' + id_curriculo + '&interesse=' + interesse;
+           
 
             //Defique qual action será passada na url
             if (id_curriculo=="")
@@ -82,7 +89,7 @@ $('#bt_limpar_cad_curriculo').click(function(){
 
 $('#add').click(function() {
       return !$('#select1 option:selected').remove().appendTo('#select2');
-      
+
 });
 
 $('#remove').click(function() {
@@ -100,14 +107,22 @@ $('#remove').click(function() {
     <form class="dialog-form" id="form_cad_curriculo" >
         <fieldset class="ui-widget ui-widget-content ui-corner-all">
 		<legend class="ui-widget ui-widget-header ui-corner-all">Currículo</legend>
-                    <br/>             
+                    <br/>
 
                     <label>Perfil Profissional</label>
+<<<<<<< Updated upstream
                     <TEXTAREA type="text" name="cad_curriculo_perfil_profissional" id="cad_curriculo_perfil_profissional" class="text ui-widget-content ui-corner-all" COLS="35" ROWS="6"><!--{$perfil}--></TEXTAREA><br/><br/>
 
                     <label>Último Emprego</label>
                     <TEXTAREA type="text" name="cad_curriculo_ultimo_emprego" id="cad_curriculo_ultimo_emprego" class="text ui-widget-content ui-corner-all" COLS="35" ROWS="3"><!--{$ultEmprego}--></TEXTAREA><br/><br/>
                     
+=======
+                    <TEXTAREA type="text" name="cad_curriculo_perfil_profissional" id="cad_curriculo_perfil_profissional" class="text ui-widget-content ui-corner-all" COLS="40" ROWS="6"><!--{$perfil}--></TEXTAREA><br/><br/>
+
+                    <label>Último Emprego</label>
+                    <TEXTAREA type="text" name="cad_curriculo_ultimo_emprego" id="cad_curriculo_ultimo_emprego" class="text ui-widget-content ui-corner-all" COLS="20" ROWS="5"><!--{$ultEmprego}--></TEXTAREA><br/><br/>
+
+>>>>>>> Stashed changes
 
                     <label>Cargo Atual</label>
                     <select id="cad_curriculo_cargo" name="cad_curriculo_cargo">
@@ -124,7 +139,7 @@ $('#remove').click(function() {
                                 <option value="<!--{$interesse[cont_interesse].id}-->"><!--{$interesse[cont_interesse].interesse}--></option>
                             <!--{/section}-->
                             </select></td>
-                    
+
 
                             <td align="center"><select multiple="multiple" id="select2" name="select2" size="5"></select></td>
                        </tr>

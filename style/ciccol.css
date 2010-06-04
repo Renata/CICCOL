@@ -643,3 +643,16 @@ h3 {
 }
 
 
+
+
+#msg_sucess_solic span{
+
+    margin-top: 100px;
+    color:green;
+    font-size: 18px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+
+    
+}

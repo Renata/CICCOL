@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2010-05-30 15:55:28
+<?php /* Smarty version 2.6.26, created on 2010-06-03 12:59:30
          compiled from cad_disciplina.tpl */ ?>
 <script type="text/javascript" charset="ISO-8859-1">
 
@@ -268,7 +268,7 @@ $this->_sections['cont_materia']['last']       = ($this->_sections['cont_materia
                        <?php endfor; endif; ?>
                     </select><br/><br/>
 
-                    <span id="span_disciplina_turma">
+                   <span id="span_disciplina_turma">
                    <label>Turmas</label>
                    
                    <select id="cad_disciplina_turma" name="cad_disciplina_turma">

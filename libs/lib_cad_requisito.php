@@ -26,51 +26,22 @@ switch ($request_reference) {
                 $cod_disc = $row[cod_disciplina];
                 $turm = $row[turma];
 
-
                 //DIVIDINDO A STRING
-                $parte = explode("  ", $request_requisito);
+                $parte = explode(",", $request_requisito);
 
                 for($i=0; $i < sizeof($parte) ; $i++){
-
+                    
                    $SQL1 = "SELECT cod_disciplina, turma FROM disciplina WHERE nome= '$parte[$i]'";
                    $result1 = pg_query($SQL1) or die ("Não foi possível consultar cod disciplina".pg_last_error());
                    $row1 = pg_fetch_array($result1);
                    $cod = $row1[cod_disciplina];
                    $turma = $row1[turma];
 
-                   $SQL2 = "INSERT INTO disciplinarequisitadisciplina (cod_disciplina, nome, turma, requisito_cod_disciplina, requisito_nome, requisito_turma) VALUES ('$cod_disc', '$request_disciplina', '$turm', '$cod', '$parte[$i]', '$turma') ";
-                   $result2 = pg_query($SQL2) or die ("Não foi possível inserir".pg_last_error());
-                  
-
+                  $SQL2 = "INSERT INTO disciplinarequisitadisciplina (cod_disciplina, nome, turma, requisito_cod_disciplina, requisito_nome, requisito_turma) VALUES ('$cod_disc', '$request_disciplina', '$turm', '$cod', '$parte[$i]', '$turma') ";
+                  $result2 = pg_query($SQL2) or die ("Não foi possível inserir".pg_last_error());
+            
                 }
                  
-                
-                // Verifica se a matricula ja está cadastrada
-               // $SQL =  ("SELECT matricula FROM docente WHERE (matricula = '$request_matricula')");
-               // $result = pg_query($SQL) or die("Couldn t execute query".pg_last_error());
-               // $row1 = pg_fetch_array($result);
-                
-             //  if($row1 == ""){
-                    //Insere no bano
-             //       $SQL1 = pg_query("INSERT INTO usuario (nome, sobrenome, email, dt_nasc, id_tpuser) VALUES ('$request_nome', '$request_sobrenome', '$request_email', '$request_nascimento', '3' )") ;
-             //       pg_query(COMMIT);
-
-                    //Pega id do usuario
-            //        $SQL2 = pg_query("SELECT id_user FROM usuario WHERE (nome = '$request_nome' AND sobrenome= '$request_sobrenome')") or die("Couldn t execute query".pg_last_error());
-
-                    //Armazena na variável idUser
-             //       $row = pg_fetch_array($SQL2);
-            //        $idUser = $row['id_user'];
-
-                    //Insere no banco
-          //          $SQL3 = pg_query("INSERT INTO docente (matricula, dt_entrada, id_user) VALUES ('$request_matricula', '$admissao', '$idUser')")or die("Couldn t execute query".pg_last_error());
-                    
-           //      echo "Cadastro realizado com sucesso";
-
-           //    }else{
-              //  echo "Matricula já cadastrada";
-             //  }
-
 
             break;
 
@@ -103,8 +74,14 @@ switch ($request_reference) {
                 //Recebe as variáveis do datastring
                 $request_id = trim($_REQUEST['cad_id']);
 
+                $SQL1 = pg_query("SELECT nome FROM disciplinarequisitadisciplina WHERE id_discrequisitadisc = '$request_id'") or die ("erro".pg_last_error());
+                $row = pg_fetch_array($SQL1);
+                $nomeDis = $row[nome];
+
+                echo $nomeDis;
+
                 //Apaga do banco
-                $SQL = ("DELETE FROM disciplinarequisitadisciplina WHERE (id_disciplinarequisitadisciplina = $request_id)");
+                $SQL = ("DELETE FROM disciplinarequisitadisciplina WHERE (nome= '$nomeDis')");
                
                 //Verifica se foi deletado com sucesso
                 $result = pg_query( $SQL ) or die("Couldn t execute query".pg_last_error());
@@ -137,7 +114,7 @@ switch ($request_reference) {
                 if($start <0) $start = 0;
 
 
-                $SQL = "SELECT nome, requisito_nome FROM disciplinarequisitadisciplina";
+                $SQL = "SELECT nome FROM disciplinarequisitadisciplina GROUP BY nome";
                 $result = pg_query( $SQL ) or die("Couldn t execute query.".pq_last_error());
 
                 if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
@@ -152,9 +129,28 @@ switch ($request_reference) {
                         echo "<records>".$count."</records>";
                 
                 while($row = pg_fetch_array($result)) {
-                        echo "<row id='". $row[id_user]."'>";
+                        echo "<row id='". $row[id_discrequisitadisc]."'>";
                         echo "<cell>". $row[nome]."</cell>";
-                        echo "<cell>". $row[requisito_nome]."</cell>";
+                        $result_1 = pg_query("SELECT requisito_nome FROM DisciplinaRequisitaDisciplina WHERE nome = '$row[nome]'");
+                        $aux='';
+                        /* Colaca as matérias que são pré-requisito em um array. */
+                        while($row_1 = pg_fetch_array($result_1))
+                        {
+                            /* Transforma as matérias que são pré-requisito em uma única string */
+                            $aux = $aux . ', ' . $row_1[requisito_nome];
+
+                        }
+                        /* Se não houver nenhum pré-requisito, mostra os --- na tela.  */
+                        if($aux == '')
+                            $aux = '---';
+                        else
+                        {
+                            /* Remove a vírgula inicial da string*/
+                            $aux = substr($aux, 1);
+                            /* Retira os espaços do começo e do fim*/
+                            $aux = trim($aux);
+                        }
+                        echo "<cell>". $aux."</cell>";
                         echo "</row>";
                 }
                 echo "</rows>";

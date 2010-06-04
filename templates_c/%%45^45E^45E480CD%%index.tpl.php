@@ -1,13 +1,36 @@
-<?php /* Smarty version 2.6.26, created on 2010-05-12 20:32:54
+<?php /* Smarty version 2.6.26, created on 2010-06-04 09:22:17
          compiled from index.tpl */ ?>
 <script type="text/javascript">
     $(document).ready(function () {
 
             $('#mostra_noticia_').load('templates/home.tpl');
 
+            $("#btnEnviar").click(function(){
+
+                var login = $('#txtLogin').val();
+                var senha = $.md5($('#pwdSenha').val());
+
+
+                dataString = 'login=' + login + '&senha=' + senha;
+                
+                    $.ajax({
+                    type: "GET",
+                    url: "libs/lib_login.php",
+                    processData: false,
+                    data: dataString
+                    
+                    
+                    
+                });
+
+
+            })
 
    
 });
+
+
+
 </script>
 
 
@@ -55,19 +78,24 @@
                     <table id="tb_login" >
                         <tr>
                           <td width="70%" align="left">Login:</td>
-                          <td width="30%" align="left"><input type="text" name="txtLogin" value="LOGIN" size="10" ></td>
+                          <td width="30%" align="left"><input type="text" id="txtLogin" value="LOGIN" size="10" ></td>
                         </tr>
                         <tr>
                           <td width="70%" align="left">Senha:</td>
-                          <td width="30%" align="left"><input type="password" name="pwdSenha" value="SENHA" size="10"></td>
+                          <td width="30%" align="left"><input type="password" id="pwdSenha" value="SENHA" size="10"></td>
                         </tr>
                         <tr>
                           <td width="100%" align="left" colspan="2">&nbsp;</td>
                         </tr>
                         <tr>
-                          <td width="100%" align="right" colspan="2"><input type="submit" name="btnEnviar" value="Enviar">&nbsp;&nbsp;&nbsp;</td>
+                          <td width="100%" align="right" colspan="2"><input type="button" id="btnEnviar" value="Enviar">&nbsp;&nbsp;&nbsp;</td>
                         </tr>
+
                     </table>
+                    <br>
+                     <a href="#" class="mostra" id="recovery">Esqueceu sua senha?</a><br>
+                    <a href="#" class="mostra" id="permissao_acesso">Quero ter acesso ao sistema.</a>
+
                 </form>
 
                 <h1 class="titulo">Links</h1>
