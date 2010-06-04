@@ -12,59 +12,84 @@ switch ($request_reference) {
     case "projeto":
         switch ($request_action) {
 
-            case "inserir_cargo":
-
+            case "inserir_projeto":
 
                 //Recebe as variáveis do datastring
-                $request_descricao_ver = trim(strtoupper($_REQUEST['descricao']));
                 $request_descricao = trim(($_REQUEST['descricao']));
                 $request_id = trim($_REQUEST['cad_id']);
 
-                //Verifica se o cargo já está cadastrado
-                $SQL1 = "SELECT descricao FROM cargo WHERE upper(descricao) = '$request_descricao_ver'";
-                $result = pg_query( $SQL1 ) or die("Couldn t execute query.".pq_last_error());
-                $row1 = pg_fetch_array($result);
-                
-               if($row1 == ""){
+                //Pega o id do currículo do docente corrente
+                $SQL_Cur = ("SELECT id_curriculo FROM Curriculo WHERE doc_matricula='12310488'");
+                $result_Cur = pg_query( $SQL_Cur ) or die("Não foi possível encontrar o número de matrícula do docente corrente.".pg_last_error());
+                $rowCur = pg_fetch_array($result_Cur);
+                $idCurriculo = $rowCur[id_curriculo];
+
+                if ($idCurriculo=="")
+                {
                     //Insere no banco
-                    $SQL = ("INSERT INTO cargo (descricao) VALUES ('$request_descricao')");
+                    $SQL = ("INSERT INTO ProjetosPesquisa (descricao, id_curriculo, doc_matricula) VALUES ('$request_descricao', NULL, '12310488')");
 
                     //Verifica se foi inserido com sucesso
-                    $result = pg_query( $SQL ) or die("Couldn t execute query".pg_last_error());
+                    $result = pg_query( $SQL ) or die("O cadastro do projeto não foi realizado com sucesso!".pg_last_error());
+                }
+                else
+                {
+                    //Insere no banco
+                    $SQL = ("INSERT INTO ProjetosPesquisa (descricao, id_curriculo, doc_matricula) VALUES ('$request_descricao', '$idCurriculo', '12310488')");
 
-                    echo "Cadastro realizado com sucesso";
-                }else
-                    echo "Cargo já cadastrado";
+                    //Verifica se foi inserido com sucesso
+                    $result = pg_query( $SQL ) or die("O cadastro do projeto não foi realizado com sucesso!".pg_last_error());
+
+                }
+                echo "Cadastro realizado com sucesso";
              
             break;
 
 
-            case "update_cargo":
+            case "update_projeto":
 
                 //Recebe as variáveis do datastring
-                $request_descricao = trim($_REQUEST['descricao']);
+                $request_descricao = trim(($_REQUEST['descricao']));
                 $request_id = trim($_REQUEST['cad_id']);
 
-                //Atualiza no banco
-                $SQL = ("UPDATE cargo SET descricao = '$request_descricao' WHERE (id_cargo = $request_id)");
+                //Pega o id do currículo do docente corrente
+                $SQL_Cur = ("SELECT id_curriculo FROM Curriculo WHERE doc_matricula='12310488'");
+                $result_Cur = pg_query( $SQL_Cur ) or die("Não foi possível encontrar o número de matrícula do docente corrente.".pg_last_error());
+                $rowCur = pg_fetch_array($result_Cur);
+                $idCurriculo = $rowCur[id_curriculo];
 
-                //Verifica se foi inserido com sucesso
-                $result = pg_query( $SQL ) or die("Couldn t execute query".pg_last_error());
-                 echo "Atualização realizada com sucesso";
+                if ($idCurriculo=="")
+                {
+                    //Atualiza no banco
+                    $SQL = ("UPDATE ProjetosPesquisa SET descricao = '$request_descricao', id_curriculo = NULL WHERE (id_projeto = '$request_id')");
+
+                    //Verifica se foi inserido com sucesso
+                    $result = pg_query( $SQL ) or die("A ataualização do projeto não foi realizada com sucesso!".pg_last_error());
+                }
+                else
+                {
+                    //Atualiza no banco
+                    $SQL = ("UPDATE ProjetosPesquisa SET descricao = '$request_descricao', id_curriculo = '$idCurriculo' WHERE (id_projeto = '$request_id')");
+
+                    //Verifica se foi inserido com sucesso
+                    $result = pg_query( $SQL ) or die("A ataualização do projeto não foi realizada com sucesso!".pg_last_error());
+
+                }
+                echo "Atualização realizada com sucesso";
                  
             break;
 
 
-            case "apagar_cargo":
+            case "apagar_projeto":
 
                 //Recebe as variáveis do datastring
                 $request_id = trim($_REQUEST['cad_id']);
 
                 //Apaga do banco
-                $SQL = ("DELETE FROM cargo WHERE (id_cargo = $request_id)");
+                $SQL = ("DELETE FROM ProjetosPesquisa WHERE (id_projeto = $request_id)");
 
-                //Verifica se foi inserido com sucesso
-                $result = pg_query( $SQL ) or die("Couldn t execute query".pg_last_error());
+                //Verifica se foi removido com sucesso
+                $result = pg_query( $SQL ) or die("Projeto removido com sucesso.".pg_last_error());
                 
             break;
 
@@ -78,7 +103,7 @@ switch ($request_reference) {
                
                 if(!$sidx) $sidx =1;
 
-                $result = pg_query("SELECT COUNT(*) AS count FROM ProjetosPesquisa WHERE id_curriculo IN (SELECT id_curriculo FROM Curriculo WHERE doc_matricula='12310488')");
+                $result = pg_query("SELECT COUNT(*) AS count FROM ProjetosPesquisa WHERE (doc_matricula='12310488')");
                 $row = pg_fetch_array($result);
                 $count = $row['count'];
                 //echo $count;
@@ -94,8 +119,8 @@ switch ($request_reference) {
                 if($start <0) $start = 0;
 
 
-                $SQL = "SELECT id_projeto, descricao FROM ProjetosPesquisa WHERE id_curriculo IN (SELECT id_curriculo FROM Curriculo WHERE doc_matricula='12310488') ORDER BY id_projeto ";
-                $result = pg_query( $SQL ) or die("Couldn t execute query.".pq_last_error());
+                $SQL = "SELECT id_projeto, descricao FROM ProjetosPesquisa WHERE (doc_matricula='12310488') ORDER BY id_projeto ";
+                $result = pg_query( $SQL ) or die("A consulta aos projetos de pesquisa do docente não pode ser realizada.".pq_last_error());
                         
                 if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
                         header("Content-type: application/xhtml+xml;charset=utf-8"); }

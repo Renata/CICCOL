@@ -13,41 +13,46 @@ switch ($request_reference)
     case "grade":
         switch ($request_action) 
         {
-            case "buscar_grade":
+            case "consulta_ementa":
 
-               //Recebe as variáveis do datastring
-                $request_id_grade = trim(strtoupper($_REQUEST['id_grade']));
+                //Recebe as variáveis do datastring
+                $request_id_disciplina = trim(($_REQUEST['id_ementa']));
 
-                $idGrade = $request_id_grade{strlen($request_id_grade)-1};
+                $SQL =pg_query("SELECT descricao FROM Ementa WHERE id_ementa IN (SELECT id_ementa FROM Disciplina WHERE id_disciplina='$request_id_disciplina')");
+                $row = pg_fetch_array($SQL);
+                $descricao = $row['descricao'];
+
+                echo $descricao;
 
             break;
+
 
            case "grid_buscar_grade1":
 
                 //Recebe as variáveis do datastring
-                $request_id_grade = trim(strtoupper($_REQUEST['id_grade']));
+                $request_id_grade = trim(($_REQUEST['id_grade']));
 
                 $idGrade = $request_id_grade{strlen($request_id_grade)-1};
 
-                echo $idGrade;
+                //echo gettype($idGrade);
                
                 /* Se nenhuma grade foi selecionada, mostra as disciplinas da grade mais atual  */
                 if ($idGrade == "")
                 {
                     $aux=pg_query("SELECT MAX(id_grade) AS id_grade FROM GradeCurricular");
                     $row_aux = pg_fetch_array($aux);
-                    $idGrade = $row['id_grade'];
+                    $idGrade = $row_aux['id_grade'];
                 }
 
                                
-                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina WHERE (semestre='1' AND optativa='1' AND id_grade = '1')");
+                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina NATURAL JOIN DisciplinaGradeCurricular WHERE (semestre='1' AND optativa='1' AND id_grade = '$idGrade')");
                 $row = pg_fetch_array($result);
                 $count = $row['count'];
 
                 
 
-                $SQL = "SELECT M.id_materia AS id_materia, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='1' AND optativa='1' AND D.nome IN (SELECT nome FROM DisciplinaGradeCurricular WHERE id_grade = '1')) ORDER BY M.nome";
-                $result = pg_query( $SQL ) or die("Couldn t execute query.".pq_last_error());
+                $SQL = "SELECT D.id_disciplina AS id_disciplina, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='1' AND optativa='1' AND D.nome IN (SELECT nome FROM DisciplinaGradeCurricular WHERE id_grade = '$idGrade')) ORDER BY M.nome";
+                $result = pg_query( $SQL ) or die("A consulta não pode ser realizada.".pq_last_error());
 
                 if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
                         header("Content-type: application/xhtml+xml;charset=utf-8"); }
@@ -60,7 +65,7 @@ switch ($request_reference)
 
                 while($row = pg_fetch_array($result))
                 {
-                        echo "<row id='". $row[id_materia]."'>";
+                        echo "<row id='". $row[id_disciplina]."'>";
                         echo "<cell>".""."</cell>";
                         echo "<cell>". $row[nome_materia]."</cell>";
                         echo "<cell>". $row[nome_disciplina]."</cell>";
@@ -95,30 +100,27 @@ switch ($request_reference)
 
             case "grid_buscar_grade2":
 
-               $page = $_REQUEST['page'];
-               $limit = $_REQUEST['rows'];
-               $sidx = $_REQUEST['sidx'];
-               $sord = $_REQUEST['sord'];
+                //Recebe as variáveis do datastring
+                $request_id_grade = trim(($_REQUEST['id_grade']));
 
-               if(!$sidx) $sidx =1;
+                $idGrade = $request_id_grade{strlen($request_id_grade)-1};
 
-                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina WHERE (semestre='2' AND optativa='1')");
-                $row = pg_fetch_array($result);
-                $count = $row['count'];
-                //echo $count;
-                if( $count >0 ) {
-                        $total_pages = ceil($count/$limit);
-                } else {
-                        $total_pages = 0;
+                //echo gettype($idGrade);
+
+                /* Se nenhuma grade foi selecionada, mostra as disciplinas da grade mais atual  */
+                if ($idGrade == "")
+                {
+                    $aux=pg_query("SELECT MAX(id_grade) AS id_grade FROM GradeCurricular");
+                    $row_aux = pg_fetch_array($aux);
+                    $idGrade = $row_aux['id_grade'];
                 }
 
-                if ($page > $total_pages) $page=$total_pages;
+                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina NATURAL JOIN DisciplinaGradeCurricular WHERE (semestre='2' AND optativa='1' AND id_grade = '$idGrade')");
+                $row = pg_fetch_array($result);
+                $count = $row['count'];
 
-                $start = $limit*$page - $limit;
-                if($start <0) $start = 0;
 
-
-                $SQL = "SELECT M.id_materia AS id_materia, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='2' AND optativa='1') ORDER BY M.nome ";
+                $SQL = "SELECT D.id_disciplina AS id_disciplina, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='2' AND optativa='1' AND D.nome IN (SELECT nome FROM DisciplinaGradeCurricular WHERE id_grade = '$idGrade')) ORDER BY M.nome";
                 $result = pg_query( $SQL ) or die("Couldn t execute query.".pq_last_error());
 
                 if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
@@ -134,7 +136,7 @@ switch ($request_reference)
 
                 while($row = pg_fetch_array($result))
                 {
-                        echo "<row id='". $row[id_materia]."'>";
+                        echo "<row id='". $row[id_disciplina]."'>";
                         echo "<cell>". $row[nome_materia]."</cell>";
                         echo "<cell>". $row[nome_disciplina]."</cell>";
                         echo "<cell>". $row[carga_horaria]."</cell>";
@@ -168,30 +170,28 @@ switch ($request_reference)
 
             case "grid_buscar_grade3":
 
-               $page = $_REQUEST['page'];
-               $limit = $_REQUEST['rows'];
-               $sidx = $_REQUEST['sidx'];
-               $sord = $_REQUEST['sord'];
 
-               if(!$sidx) $sidx =1;
+                //Recebe as variáveis do datastring
+                $request_id_grade = trim(($_REQUEST['id_grade']));
 
-                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina WHERE (semestre='3' AND optativa='1')");
-                $row = pg_fetch_array($result);
-                $count = $row['count'];
-                //echo $count;
-                if( $count >0 ) {
-                        $total_pages = ceil($count/$limit);
-                } else {
-                        $total_pages = 0;
+                $idGrade = $request_id_grade{strlen($request_id_grade)-1};
+
+                //echo gettype($idGrade);
+
+                /* Se nenhuma grade foi selecionada, mostra as disciplinas da grade mais atual  */
+                if ($idGrade == "")
+                {
+                    $aux=pg_query("SELECT MAX(id_grade) AS id_grade FROM GradeCurricular");
+                    $row_aux = pg_fetch_array($aux);
+                    $idGrade = $row_aux['id_grade'];
                 }
 
-                if ($page > $total_pages) $page=$total_pages;
+                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina NATURAL JOIN DisciplinaGradeCurricular WHERE (semestre='3' AND optativa='1' AND id_grade = '$idGrade')");
+                $row = pg_fetch_array($result);
+                $count = $row['count'];
 
-                $start = $limit*$page - $limit;
-                if($start <0) $start = 0;
 
-
-                $SQL = "SELECT M.id_materia AS id_materia, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='3' AND optativa='1') ORDER BY M.nome ";
+                $SQL = "SELECT D.id_disciplina AS id_disciplina, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='3' AND optativa='1' AND D.nome IN (SELECT nome FROM DisciplinaGradeCurricular WHERE id_grade = '$idGrade')) ORDER BY M.nome";
                 $result = pg_query( $SQL ) or die("Couldn t execute query.".pq_last_error());
 
                 if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
@@ -207,7 +207,7 @@ switch ($request_reference)
 
                 while($row = pg_fetch_array($result))
                 {
-                        echo "<row id='". $row[id_materia]."'>";
+                        echo "<row id='". $row[id_disciplina]."'>";
                         echo "<cell>". $row[nome_materia]."</cell>";
                         echo "<cell>". $row[nome_disciplina]."</cell>";
                         echo "<cell>". $row[carga_horaria]."</cell>";
@@ -242,12 +242,27 @@ switch ($request_reference)
 
             case "grid_buscar_grade4":
 
-                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina WHERE (semestre='4' AND optativa='1')");
+                //Recebe as variáveis do datastring
+                $request_id_grade = trim(($_REQUEST['id_grade']));
+
+                $idGrade = $request_id_grade{strlen($request_id_grade)-1};
+
+                //echo gettype($idGrade);
+
+                /* Se nenhuma grade foi selecionada, mostra as disciplinas da grade mais atual  */
+                if ($idGrade == "")
+                {
+                    $aux=pg_query("SELECT MAX(id_grade) AS id_grade FROM GradeCurricular");
+                    $row_aux = pg_fetch_array($aux);
+                    $idGrade = $row_aux['id_grade'];
+                }
+
+                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina NATURAL JOIN DisciplinaGradeCurricular WHERE (semestre='4' AND optativa='1' AND id_grade = '$idGrade')");
                 $row = pg_fetch_array($result);
                 $count = $row['count'];
                 
 
-                $SQL = "SELECT M.id_materia AS id_materia, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='4' AND optativa='1') ORDER BY M.nome ";
+                $SQL = "SELECT D.id_disciplina AS id_disciplina, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='4' AND optativa='1' AND D.nome IN (SELECT nome FROM DisciplinaGradeCurricular WHERE id_grade = '$idGrade')) ORDER BY M.nome";
                 $result = pg_query( $SQL ) or die("Couldn t execute query.".pq_last_error());
 
                 if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
@@ -261,7 +276,7 @@ switch ($request_reference)
 
                 while($row = pg_fetch_array($result))
                 {
-                        echo "<row id='". $row[id_materia]."'>";
+                        echo "<row id='". $row[id_disciplina]."'>";
                         echo "<cell>". $row[nome_materia]."</cell>";
                         echo "<cell>". $row[nome_disciplina]."</cell>";
                         echo "<cell>". $row[carga_horaria]."</cell>";
@@ -296,11 +311,27 @@ switch ($request_reference)
 
             case "grid_buscar_grade5":
 
-                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina WHERE (semestre='5' AND optativa='1')");
+
+                //Recebe as variáveis do datastring
+                $request_id_grade = trim(($_REQUEST['id_grade']));
+
+                $idGrade = $request_id_grade{strlen($request_id_grade)-1};
+
+                //echo gettype($idGrade);
+
+                /* Se nenhuma grade foi selecionada, mostra as disciplinas da grade mais atual  */
+                if ($idGrade == "")
+                {
+                    $aux=pg_query("SELECT MAX(id_grade) AS id_grade FROM GradeCurricular");
+                    $row_aux = pg_fetch_array($aux);
+                    $idGrade = $row_aux['id_grade'];
+                }
+
+                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina NATURAL JOIN DisciplinaGradeCurricular WHERE (semestre='5' AND optativa='1' AND id_grade = '$idGrade')");
                 $row = pg_fetch_array($result);
                 $count = $row['count'];
                 
-                $SQL = "SELECT M.id_materia AS id_materia, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='5' AND optativa='1') ORDER BY M.nome ";
+                $SQL = "SELECT D.id_disciplina AS id_disciplina, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='5' AND optativa='1' AND D.nome IN (SELECT nome FROM DisciplinaGradeCurricular WHERE id_grade = '$idGrade')) ORDER BY M.nome";
                 $result = pg_query( $SQL ) or die("Couldn t execute query.".pq_last_error());
 
                 if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
@@ -314,7 +345,7 @@ switch ($request_reference)
 
                 while($row = pg_fetch_array($result))
                 {
-                        echo "<row id='". $row[id_materia]."'>";
+                        echo "<row id='". $row[id_disciplina]."'>";
                         echo "<cell>". $row[nome_materia]."</cell>";
                         echo "<cell>". $row[nome_disciplina]."</cell>";
                         echo "<cell>". $row[carga_horaria]."</cell>";
@@ -348,30 +379,28 @@ switch ($request_reference)
 
             case "grid_buscar_grade6":
 
-               $page = $_REQUEST['page'];
-               $limit = $_REQUEST['rows'];
-               $sidx = $_REQUEST['sidx'];
-               $sord = $_REQUEST['sord'];
 
-               if(!$sidx) $sidx =1;
+                //Recebe as variáveis do datastring
+                $request_id_grade = trim(($_REQUEST['id_grade']));
 
-                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina WHERE (semestre='6' AND optativa='1')");
-                $row = pg_fetch_array($result);
-                $count = $row['count'];
-                //echo $count;
-                if( $count >0 ) {
-                        $total_pages = ceil($count/$limit);
-                } else {
-                        $total_pages = 0;
+                $idGrade = $request_id_grade{strlen($request_id_grade)-1};
+
+                //echo gettype($idGrade);
+
+                /* Se nenhuma grade foi selecionada, mostra as disciplinas da grade mais atual  */
+                if ($idGrade == "")
+                {
+                    $aux=pg_query("SELECT MAX(id_grade) AS id_grade FROM GradeCurricular");
+                    $row_aux = pg_fetch_array($aux);
+                    $idGrade = $row_aux['id_grade'];
                 }
 
-                if ($page > $total_pages) $page=$total_pages;
+                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina NATURAL JOIN DisciplinaGradeCurricular WHERE (semestre='6' AND optativa='1' AND id_grade = '$idGrade')");
+                $row = pg_fetch_array($result);
+                $count = $row['count'];
+                
 
-                $start = $limit*$page - $limit;
-                if($start <0) $start = 0;
-
-
-                $SQL = "SELECT M.id_materia AS id_materia, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='6' AND optativa='1') ORDER BY M.nome ";
+                $SQL = "SELECT D.id_disciplina AS id_disciplina, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='6' AND optativa='1' AND D.nome IN (SELECT nome FROM DisciplinaGradeCurricular WHERE id_grade = '$idGrade')) ORDER BY M.nome";
                 $result = pg_query( $SQL ) or die("Couldn t execute query.".pq_last_error());
 
                 if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
@@ -387,7 +416,7 @@ switch ($request_reference)
 
                 while($row = pg_fetch_array($result))
                 {
-                        echo "<row id='". $row[id_materia]."'>";
+                        echo "<row id='". $row[id_disciplina]."'>";
                         echo "<cell>". $row[nome_materia]."</cell>";
                         echo "<cell>". $row[nome_disciplina]."</cell>";
                         echo "<cell>". $row[carga_horaria]."</cell>";
@@ -421,30 +450,28 @@ switch ($request_reference)
 
             case "grid_buscar_grade7":
 
-               $page = $_REQUEST['page'];
-               $limit = $_REQUEST['rows'];
-               $sidx = $_REQUEST['sidx'];
-               $sord = $_REQUEST['sord'];
 
-               if(!$sidx) $sidx =1;
+                //Recebe as variáveis do datastring
+                $request_id_grade = trim(($_REQUEST['id_grade']));
 
-                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina WHERE (semestre='7' AND optativa='1')");
-                $row = pg_fetch_array($result);
-                $count = $row['count'];
-                //echo $count;
-                if( $count >0 ) {
-                        $total_pages = ceil($count/$limit);
-                } else {
-                        $total_pages = 0;
+                $idGrade = $request_id_grade{strlen($request_id_grade)-1};
+
+                //echo gettype($idGrade);
+
+                /* Se nenhuma grade foi selecionada, mostra as disciplinas da grade mais atual  */
+                if ($idGrade == "")
+                {
+                    $aux=pg_query("SELECT MAX(id_grade) AS id_grade FROM GradeCurricular");
+                    $row_aux = pg_fetch_array($aux);
+                    $idGrade = $row_aux['id_grade'];
                 }
 
-                if ($page > $total_pages) $page=$total_pages;
+                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina NATURAL JOIN DisciplinaGradeCurricular WHERE (semestre='7' AND optativa='1' AND id_grade = '$idGrade')");
+                $row = pg_fetch_array($result);
+                $count = $row['count'];
 
-                $start = $limit*$page - $limit;
-                if($start <0) $start = 0;
 
-
-                $SQL = "SELECT M.id_materia AS id_materia, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='7' AND optativa='1') ORDER BY M.nome ";
+                $SQL = "SELECT D.id_disciplina AS id_disciplina, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='7' AND optativa='1' AND D.nome IN (SELECT nome FROM DisciplinaGradeCurricular WHERE id_grade = '$idGrade')) ORDER BY M.nome";
                 $result = pg_query( $SQL ) or die("Couldn t execute query.".pq_last_error());
 
                 if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
@@ -460,7 +487,7 @@ switch ($request_reference)
 
                 while($row = pg_fetch_array($result))
                 {
-                        echo "<row id='". $row[id_materia]."'>";
+                        echo "<row id='". $row[id_disciplina]."'>";
                         echo "<cell>". $row[nome_materia]."</cell>";
                         echo "<cell>". $row[nome_disciplina]."</cell>";
                         echo "<cell>". $row[carga_horaria]."</cell>";
@@ -494,30 +521,28 @@ switch ($request_reference)
 
             case "grid_buscar_grade8":
 
-               $page = $_REQUEST['page'];
-               $limit = $_REQUEST['rows'];
-               $sidx = $_REQUEST['sidx'];
-               $sord = $_REQUEST['sord'];
 
-               if(!$sidx) $sidx =1;
+                //Recebe as variáveis do datastring
+                $request_id_grade = trim(($_REQUEST['id_grade']));
 
-                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina WHERE (semestre='8' AND optativa='1')");
-                $row = pg_fetch_array($result);
-                $count = $row['count'];
-                //echo $count;
-                if( $count >0 ) {
-                        $total_pages = ceil($count/$limit);
-                } else {
-                        $total_pages = 0;
+                $idGrade = $request_id_grade{strlen($request_id_grade)-1};
+
+                //echo gettype($idGrade);
+
+                /* Se nenhuma grade foi selecionada, mostra as disciplinas da grade mais atual  */
+                if ($idGrade == "")
+                {
+                    $aux=pg_query("SELECT MAX(id_grade) AS id_grade FROM GradeCurricular");
+                    $row_aux = pg_fetch_array($aux);
+                    $idGrade = $row_aux['id_grade'];
                 }
 
-                if ($page > $total_pages) $page=$total_pages;
+                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina NATURAL JOIN DisciplinaGradeCurricular WHERE (semestre='8' AND optativa='1' AND id_grade = '$idGrade')");
+                $row = pg_fetch_array($result);
+                $count = $row['count'];
 
-                $start = $limit*$page - $limit;
-                if($start <0) $start = 0;
 
-
-                $SQL = "SELECT M.id_materia AS id_materia, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='8' AND optativa='1') ORDER BY M.nome ";
+                $SQL = "SELECT D.id_disciplina AS id_disciplina, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (semestre='8' AND optativa='1' AND D.nome IN (SELECT nome FROM DisciplinaGradeCurricular WHERE id_grade = '$idGrade')) ORDER BY M.nome";
                 $result = pg_query( $SQL ) or die("Couldn t execute query.".pq_last_error());
 
                 if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
@@ -533,7 +558,7 @@ switch ($request_reference)
 
                 while($row = pg_fetch_array($result))
                 {
-                        echo "<row id='". $row[id_materia]."'>";
+                        echo "<row id='". $row[id_disciplina]."'>";
                         echo "<cell>". $row[nome_materia]."</cell>";
                         echo "<cell>". $row[nome_disciplina]."</cell>";
                         echo "<cell>". $row[carga_horaria]."</cell>";
@@ -567,30 +592,28 @@ switch ($request_reference)
 
             case "grid_buscar_grade_optativa":
 
-               $page = $_REQUEST['page'];
-               $limit = $_REQUEST['rows'];
-               $sidx = $_REQUEST['sidx'];
-               $sord = $_REQUEST['sord'];
 
-               if(!$sidx) $sidx =1;
+                //Recebe as variáveis do datastring
+                $request_id_grade = trim(($_REQUEST['id_grade']));
 
-                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina WHERE optativa='2'");
-                $row = pg_fetch_array($result);
-                $count = $row['count'];
-                //echo $count;
-                if( $count >0 ) {
-                        $total_pages = ceil($count/$limit);
-                } else {
-                        $total_pages = 0;
+                $idGrade = $request_id_grade{strlen($request_id_grade)-1};
+
+                //echo gettype($idGrade);
+
+                /* Se nenhuma grade foi selecionada, mostra as disciplinas da grade mais atual  */
+                if ($idGrade == "")
+                {
+                    $aux=pg_query("SELECT MAX(id_grade) AS id_grade FROM GradeCurricular");
+                    $row_aux = pg_fetch_array($aux);
+                    $idGrade = $row_aux['id_grade'];
                 }
 
-                if ($page > $total_pages) $page=$total_pages;
+                $result = pg_query("SELECT COUNT(*) AS count FROM Disciplina NATURAL JOIN DisciplinaGradeCurricular WHERE (optativa='2' AND id_grade = '$idGrade')");
+                $row = pg_fetch_array($result);
+                $count = $row['count'];
 
-                $start = $limit*$page - $limit;
-                if($start <0) $start = 0;
 
-
-                $SQL = "SELECT M.id_materia AS id_materia, M.nome AS nome_materia, D.nome AS nome_disciplina, semestre, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE optativa='2' ORDER BY M.nome ";
+                $SQL = "SELECT D.id_disciplina AS id_disciplina, M.nome AS nome_materia, D.nome AS nome_disciplina, carga_horaria, num_cred FROM materia M JOIN Disciplina D ON M.id_materia=D.id_materia WHERE (optativa='2' AND D.nome IN (SELECT nome FROM DisciplinaGradeCurricular WHERE id_grade = '$idGrade')) ORDER BY M.nome";
                 $result = pg_query( $SQL ) or die("Couldn t execute query.".pq_last_error());
 
                 if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
@@ -606,7 +629,7 @@ switch ($request_reference)
 
                 while($row = pg_fetch_array($result))
                 {
-                        echo "<row id='". $row[id_materia]."'>";
+                        echo "<row id='". $row[id_disciplina]."'>";
                         echo "<cell>". $row[nome_materia]."</cell>";
                         echo "<cell>". $row[nome_disciplina]."</cell>";
                         echo "<cell>". $row[semestre]."</cell>";

@@ -8,13 +8,17 @@
             var ultimo_emprego = $("#cad_curriculo_ultimo_emprego").val();
             var cargo = $("#cad_curriculo_cargo").val();
             var id_curriculo = $("#cad_curriculo_id").val();
-            //var area_interesse =  $("#select2").val;
-                        
 
-           // alert(count);
+            var interesse = [];
+
+            //Função para pegar os valores do segundo select
+            $("#select2 option:selected").each(function() {
+                interesse.push($(this).val());
+            });
+       
 
             //Armazena os valores do formulário na variável dataString
-           var dataString = 'perfil_profissional=' + perfil_profissional + '&ultimo_emprego=' + ultimo_emprego + '&cargo=' + cargo + '&id_curriculo=' + id_curriculo;
+           var dataString = 'perfil_profissional=' + perfil_profissional + '&ultimo_emprego=' + ultimo_emprego + '&cargo=' + cargo + '&id_curriculo=' + id_curriculo + '&interesse=' + interesse;
 
 
             //Defique qual action será passada na url
@@ -31,15 +35,16 @@
                     data: dataString,
                     //dataType: "html",
                     success: function(){
+                      //alert(msg);
                       alert("Currículo feito com sucesso!");
                     }
                 });
 
     })
 
-//------------------------------------ Ação sobre o botão Cancelar ----------------------
+//------------------------------------ Ação sobre o botão Limpar ----------------------
 
-$('#bt_cancelar_cad_curriculo').click(function(){
+$('#bt_limpar_cad_curriculo').click(function(){
 
     var id_curriculo = $("#cad_curriculo_id").val();
 
@@ -98,10 +103,10 @@ $('#remove').click(function() {
                     <br/>             
 
                     <label>Perfil Profissional</label>
-                    <TEXTAREA type="text" name="cad_curriculo_perfil_profissional" id="cad_curriculo_perfil_profissional" class="text ui-widget-content ui-corner-all" COLS=40 ROWS=6><!--{$perfil}--></TEXTAREA><br/><br/>
+                    <TEXTAREA type="text" name="cad_curriculo_perfil_profissional" id="cad_curriculo_perfil_profissional" class="text ui-widget-content ui-corner-all" COLS="35" ROWS="6"><!--{$perfil}--></TEXTAREA><br/><br/>
 
                     <label>Último Emprego</label>
-                    <TEXTAREA type="text" name="cad_curriculo_ultimo_emprego" id="cad_curriculo_ultimo_emprego" class="text ui-widget-content ui-corner-all" COLS=20 ROWS=5><!--{$ultEmprego}--></TEXTAREA><br/><br/>
+                    <TEXTAREA type="text" name="cad_curriculo_ultimo_emprego" id="cad_curriculo_ultimo_emprego" class="text ui-widget-content ui-corner-all" COLS="35" ROWS="3"><!--{$ultEmprego}--></TEXTAREA><br/><br/>
                     
 
                     <label>Cargo Atual</label>
@@ -116,7 +121,7 @@ $('#remove').click(function() {
                     <table width="55%" cellspacing="12">
                         <tr><td align="center"><select multiple="multiple" id="select1" size="5" name="select1">
                             <!--{section name=cont_interesse loop=$interesse}-->
-                                <option value="<!--{$interesse[cont_interesse].interesse}-->"><!--{$interesse[cont_interesse].interesse}--></option>
+                                <option value="<!--{$interesse[cont_interesse].id}-->"><!--{$interesse[cont_interesse].interesse}--></option>
                             <!--{/section}-->
                             </select></td>
                     
@@ -131,11 +136,11 @@ $('#remove').click(function() {
                     </table>
 
 
-                    <input type="text" id="cad_curriculo_id" name="cad_curriculo_id" value="<!--{$idCurriculo}-->" style="display:none;" /><br/><br/><br/>
+                    <input type="text" id="cad_curriculo_id" name="cad_curriculo_id" value="<!--{$idCurriculo}-->" style="display:none;" /><br/>
 
-                    <div id="dialog-form_button"
+                    <div id="dialog-form_button">
                         <input type="button" value="OK" id="bt_ok_cad_curriculo" title="OK" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-                        <input type="button" value="Limpar" id="bt_cancelar_cad_curriculo" title="Cancelar" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+                        <input type="button" value="Limpar" id="bt_limpar_cad_curriculo" title="Limpar" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
                     </div>
          </fieldset>
     </form>
