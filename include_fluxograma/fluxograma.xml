@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram bgcolor="#f" bgcolor2="#d9e3ed">
+    <node name="node a" namecolor="#f" bgcolor="#d9e3ed" bgcolor2="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88">
+        data on node a
+        <node name="node b" connectionname="you can write whatever you want" connectioncolor="#526e88" namecolor="#f" bgcolor="#d9e3ed" bgcolor2="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88">
+            node b
+        </node>
+        <node name="title only" connectioncolor="#526e88" borderconnection="3" namecolor="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88">
+            <node name="node e" connectioncolor="#526e88" connectionname="left side" align="center" namecolor="#f" bgcolor="#d9e3ed" bgcolor2="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88" borderconnection="7">
+                nodes can have any width you like
+            </node>
+            <node name="clone of node e" connectioncolor="#526e88" align="center" namecolor="#f" bgcolor="#d9e3ed" bgcolor2="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88" borderconnection="3">
+                nodes can have any width you like
+            </node>
+            <node name="node d" connectionname="right side" connectioncolor="#526e88" width="200" namecolor="#f" bgcolor="#d9e3ed" bgcolor2="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88" borderconnection="3">
+                this is a node\n
+                with multiple\n
+                lines
+                <node name="y" connectioncolor="#526e88" namecolor="#f" bgcolor="#d9e3ed" bgcolor2="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88" width="150" borderconnection="5">
+                    large
+                                    <node name="y" connectioncolor="#526e88" namecolor="#f" bgcolor="#d9e3ed" bgcolor2="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88" width="150" borderconnection="5">
+                    large
+
+                <node name="y" connectioncolor="#526e88" namecolor="#f" bgcolor="#d9e3ed" bgcolor2="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88" width="150" borderconnection="5">
+                    large
+
+                <node name="y" connectioncolor="#526e88" namecolor="#f" bgcolor="#d9e3ed" bgcolor2="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88" width="150" borderconnection="5">
+                    large
+
+                <node name="y" connectioncolor="#526e88" namecolor="#f" bgcolor="#d9e3ed" bgcolor2="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88" width="150" borderconnection="5">
+                    large
+                <node name="y" connectioncolor="#526e88" namecolor="#f" bgcolor="#d9e3ed" bgcolor2="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88" width="150" borderconnection="5">
+                    large
+                </node>
+                                </node>
+                                                </node>
+                                                                </node>
+                                                                                </node>
+
+
+                </node>
+                <node name="z" connectioncolor="#526e88" namecolor="#f" bgcolor="#d9e3ed" bgcolor2="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88" width="200">
+                    professor: medium\n
+                    eueueueueueueueue
+                </node>
+                <node name="" connectioncolor="#526e88" namecolor="#f" bgcolor="#d9e3ed" bgcolor2="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88" width="" borderconnection="3">
+
+                    <node name="the end" connectioncolor="#526e88" fitname="1" namecolor="#f" namebgcolor="#d9e3ed" namebgcolor2="#526e88" bordercolor="#526e88" borderconnection="3" >
+                    jdhjshjhdjsds\n
+                    sdkdksjdkjs
+                    </node>
+               </node>
+            </node>
+        </node>
+    </node>
+</diagram>
